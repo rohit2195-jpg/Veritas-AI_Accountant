@@ -3,6 +3,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
 import pandas as pd
+from rapidfuzz import process, fuzz
 
 app = Flask(__name__)
 CORS(app, support_credentials=True)
@@ -33,6 +34,8 @@ def hello():
     file.save(file_path)
 
     try:
+        standard_columns = ['date', 'description', 'amount', 'balance']
+
         df = pd.read_csv(file_path)
         print(df.head())
     except:

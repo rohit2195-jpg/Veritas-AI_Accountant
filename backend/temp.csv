@@ -1,0 +1,41 @@
+date,description,amount,type,category,userid
+2024-12-31,Salary Payment,3250.0,credit,Food,11
+2025-01-02,Grocery Shopping,-154.78,debit,Food,11
+2025-01-03,Starbucks Coffee,-8.45,debit,Food,11
+2025-01-05,Freelance Income,450.0,credit,Food,11
+2025-01-07,Spotify Subscription,-10.99,debit,Entertainment,11
+2025-01-08,Amazon Purchase,-89.2,debit,Food,11
+2025-01-10,Gas Station,-47.6,debit,Transportation,11
+2025-01-12,Uber Ride,-15.3,debit,Transportation,11
+2025-01-13,Stock Dividend,120.0,credit,Food,11
+2025-01-15,Rent Payment,-1300.0,debit,Food,11
+2025-01-17,Medical Bill,-220.4,debit,Food,11
+2025-01-18,Interest Earned,5.25,credit,Food,11
+2025-01-20,Lunch at Panera,-12.35,debit,Food,11
+2025-01-22,Gym Membership,-45.0,debit,Entertainment,11
+2025-01-25,Refund from Target,29.99,credit,Food,11
+2025-01-26,Parking Garage,-18.0,debit,Transportation,11
+2025-01-28,YouTube Premium,-11.99,debit,Entertainment,11
+2025-01-29,Gift Received,100.0,credit,Food,11
+2025-01-30,Apple Store,-299.99,debit,Entertainment,11
+2025-02-01,Salary Payment,3250.0,credit,Food,11
+2025-02-02,Trader Joe’s Grocery,-136.22,debit,Food,11
+2025-02-03,Movie Theater,-26.0,debit,Entertainment,11
+2025-02-05,Etsy Purchase,-32.75,debit,Entertainment,11
+2025-02-07,Freelance Income,600.0,credit,Food,11
+2025-02-08,Gas Station,-52.13,debit,Transportation,11
+2025-02-10,Subscription Box,-39.99,debit,Entertainment,11
+2025-02-11,Interest Earned,6.1,credit,Food,11
+2025-02-12,Restaurant Dinner,-67.8,debit,Food,11
+2025-02-13,PayPal Refund,14.5,credit,Food,11
+2025-02-14,Valentine’s Gift,-58.0,debit,Entertainment,11
+2025-02-15,Rent Payment,-1300.0,debit,Utilities,11
+2025-02-17,Pet Supplies,-73.25,debit,Food,11
+2025-02-19,Home Depot,-142.99,debit,Utilities,11
+2025-02-21,Freelance Income,300.0,credit,Food,11
+2025-02-22,Grocery Shopping,-128.64,debit,Food,11
+2025-02-24,Streaming Bundle,-19.99,debit,Entertainment,11
+2025-02-25,Stock Dividend,95.75,credit,Food,11
+2025-02-27,Taxi Ride,-22.5,debit,Transportation,11
+2025-02-28,Gift Received,75.0,credit,Food,11
+2025-03-01,Salary Payment,3250.0,credit,Food,11

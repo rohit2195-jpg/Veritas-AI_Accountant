@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Uploader from "./Components/Uploader.tsx";
 import axios from 'axios';
 
@@ -18,6 +18,26 @@ const Parser: React.FC = () => {
     const [status, setStatus] = useState<UploadStatus>("idle");
     const [file, setFile] = useState<File | null>(null);
     const [progress, setProgress] = useState(0);
+
+    async function getCategories() {
+        const formData = new FormData();
+        formData.append("userid", "11");
+
+        try {
+            const response = await axios.post('http://127.0.0.1:5000/load_categories', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
+            console.log('Upload successful:', response.data);
+            setCategories(response.data); // Save data to state
+        } catch (error) {
+            console.error('Upload failed:', error);
+        }
+    }
+    useEffect(() => {
+        getCategories();
+    }, []);
 
     async function handleUpload(){
         if (!file) return;

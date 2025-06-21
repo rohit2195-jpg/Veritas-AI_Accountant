@@ -1,13 +1,16 @@
+import datetime
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
 import pandas as pd
-
+from sqlalchemy.orm import Session
 from category import batch_categorize
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from sqlalchemy.dialects.postgresql import JSON
+import calendar
 
 
 
@@ -44,7 +47,7 @@ class Preferences(db.Model):
     categories = db.Column(JSON)
 
 class Transaction(db.Model):
-
+    __tablename__ = 'transaction'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
     userid = db.Column(db.Integer, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
@@ -53,10 +56,23 @@ class Transaction(db.Model):
     type = db.Column(db.String(10), nullable=False)
     category = db.Column(db.String(100), nullable=False)
 
+@app.route('/load_categories', methods=['POST'])
+def load_categories():
+    print("here")
+    userid_key = 11
+    engine = db.engine
+    print(engine.url)
 
+    try:
+        pref = db.session.get(Preferences, userid_key)
+        print(pref)
+    except Exception as e:
+        return "no data", 400
+    print(pref.categories)
+    return pref.categories
 
 @app.route('/uploadcsv', methods=['POST'])
-def hello():
+def upload_csv():
     engine = db.engine
 
     if 'filename' not in request.files:
@@ -105,7 +121,7 @@ def hello():
             print("After categorization")
             print(standardized_df.head())
 
-            standardized_df.to_sql('Transaction', con=engine, if_exists='append', index=False)
+            standardized_df.to_sql('transaction', con=engine, if_exists='append', index=False)
             #upload it to exisiting dataset
         else:
             print("not same categories")
@@ -131,7 +147,7 @@ def hello():
             standardized_df = batch_categorize(standardized_df, categories)
             print(standardized_df.head())
 
-            standardized_df.to_sql('Transaction', con=engine, if_exists='append', index=False)
+            standardized_df.to_sql('transaction', con=engine, if_exists='append', index=False)
 
 
         pref = db.session.get(Preferences, userid)
@@ -149,6 +165,102 @@ def hello():
             os.remove(file_path)
         '''
         return jsonify({'filename': filename}), 200
+
+@app.route('/view_transactions', methods=['POST'])
+def hello():
+    print("here")
+    userid_key = 11
+    engine = db.engine
+    print(engine.url)
+    session = Session(engine)
+
+    try:
+        results = session.query(Transaction).filter_by(userid=userid_key).all()
+        print(results)
+    except Exception as e:
+        return "no data", 400
+    print(results)
+    data = [r.__dict__ for r in results]
+    for row in data:
+        row.pop('_sa_instance_state', None)
+    df = pd.DataFrame(data)
+    df.drop("userid", axis=1, inplace=True)
+    print(df)
+
+    return jsonify(df.to_dict(orient='records'))
+
+
+#Dashboard charts
+@app.route('/api/expensesby-category', methods=['POST'])
+def expenses_by_category():
+    print("here")
+    userid_key = 11
+    engine = db.engine
+    print(engine.url)
+    session = Session(engine)
+
+    try:
+        results = session.query(Transaction).filter_by(userid=userid_key).all()
+        print(results)
+    except Exception as e:
+        return "no data", 400
+    print(results)
+    data = [r.__dict__ for r in results]
+    for row in data:
+        row.pop('_sa_instance_state', None)
+    data = pd.DataFrame(data)
+    spending = data[data["type"] == "debit"]
+    spending["amount"] = spending["amount"].abs()
+    res = spending.groupby("category")['amount'].sum()
+    colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40"]
+
+    return jsonify({
+        "labels": res.index.tolist(),
+        "datasets": [
+            {
+                "data": res.values.tolist(),
+                "backgroundColor": colors[:len(res)]
+            }
+        ]
+    })
+
+@app.route('/api/timegraphs', methods=['POST'])
+def time_graphs():
+    print("here")
+    userid_key = 11
+    engine = db.engine
+    session = Session(engine)
+
+    try:
+        results = session.query(Transaction).filter_by(userid=userid_key).all()
+
+    except Exception as e:
+        return "no data", 400
+    print(results)
+    data = [r.__dict__ for r in results]
+    for row in data:
+        row.pop('_sa_instance_state', None)
+    data = pd.DataFrame(data)
+    data["date"] = pd.to_datetime(data["date"])
+    data = data[data["type"] == "debit"]
+    data["amount"] = data["amount"].abs()
+    current_date = datetime.datetime.now()
+    one_year_ago = current_date - datetime.timedelta(days=365)
+    df_last_year = data[data['date'] >= one_year_ago]
+    df_last_year["month"] = pd.to_datetime(df_last_year["date"]).dt.month
+    res = df_last_year.groupby("month")['amount'].sum()
+    colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40"]
+
+    return jsonify({
+        "labels": [calendar.month_name[m] for m in res.index],
+        "datasets": [
+            {
+                "label": "Monthly Spending",
+                "data": res.values.tolist(),
+                "backgroundColor": colors[:len(res)]
+            }
+        ]
+    })
 
 
 

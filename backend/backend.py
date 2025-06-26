@@ -6,11 +6,13 @@ from werkzeug.utils import secure_filename
 import os
 import pandas as pd
 from sqlalchemy.orm import Session
+
 from category import batch_categorize
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from sqlalchemy.dialects.postgresql import JSON
 import calendar
+from chatbot import ask_chatbot
 
 
 
@@ -27,6 +29,8 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
 DB_NAME = os.getenv("DB_NAME")
 DB_PORT = os.getenv("DB_PORT")
+
+colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40"]
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
@@ -209,10 +213,12 @@ def expenses_by_category():
     for row in data:
         row.pop('_sa_instance_state', None)
     data = pd.DataFrame(data)
-    spending = data[data["type"] == "debit"]
+    current_date = datetime.datetime.now()
+    one_year_ago = current_date - datetime.timedelta(days=31)
+    df_last_year = data[data['date'] >= one_year_ago]
+    spending = df_last_year[data["type"] == "debit"]
     spending["amount"] = spending["amount"].abs()
     res = spending.groupby("category")['amount'].sum()
-    colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40"]
 
     return jsonify({
         "labels": res.index.tolist(),
@@ -242,25 +248,107 @@ def time_graphs():
         row.pop('_sa_instance_state', None)
     data = pd.DataFrame(data)
     data["date"] = pd.to_datetime(data["date"])
-    data = data[data["type"] == "debit"]
-    data["amount"] = data["amount"].abs()
     current_date = datetime.datetime.now()
     one_year_ago = current_date - datetime.timedelta(days=365)
     df_last_year = data[data['date'] >= one_year_ago]
     df_last_year["month"] = pd.to_datetime(df_last_year["date"]).dt.month
-    res = df_last_year.groupby("month")['amount'].sum()
-    colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40"]
+    credit = df_last_year[df_last_year["type"] == "credit"]
+    debit = df_last_year[df_last_year["type"] == "debit"]
+    debit["amount"] = debit["amount"].abs()
+    res1 = credit.groupby("month")["amount"].sum()
+
+    res2 = debit.groupby("month")["amount"].sum()
+    months = sorted(set(res1.index).union(res2.index))
+
+    res1 = res1.reindex(months, fill_value=0)
+    res2 = res2.reindex(months, fill_value=0)
 
     return jsonify({
-        "labels": [calendar.month_name[m] for m in res.index],
+        "labels": [calendar.month_name[m] for m in months],
         "datasets": [
             {
-                "label": "Monthly Spending",
-                "data": res.values.tolist(),
-                "backgroundColor": colors[:len(res)]
+                "label": "Inflow",
+                "data": res1.values.tolist(),
+                "backgroundColor": colors[0]
+            },
+            {
+                "label": "Outflow",
+                "data": res2.values.tolist(),
+                "backgroundColor": colors[1]
             }
         ]
     })
+
+
+@app.route('/api/inoutgraph', methods=['POST'])
+def in_out_graphs():
+    print("here")
+    userid_key = 11
+    engine = db.engine
+    session = Session(engine)
+
+    try:
+        results = session.query(Transaction).filter_by(userid=userid_key).all()
+
+    except Exception as e:
+        return "no data", 400
+    print(results)
+    data = [r.__dict__ for r in results]
+    for row in data:
+        row.pop('_sa_instance_state', None)
+    data = pd.DataFrame(data)
+    data["date"] = pd.to_datetime(data["date"])
+    data["amount"] = data["amount"].abs()
+    data["year"] = pd.to_datetime(data["date"]).dt.year
+    credit = data[data["type"] == "credit"]
+    debit = data[data["type"] == "debit"]
+    res1 = credit.groupby("year")["amount"].sum()
+
+    res2 = debit.groupby("year")["amount"].sum()
+    years = sorted(set(res1.index).union(res2.index))
+
+    res1 = res1.reindex(years, fill_value=0)
+    res2 = res2.reindex(years, fill_value=0)
+
+    return jsonify({
+        "labels": years,
+        "datasets": [
+            {
+                "label": "Inflow",
+                "data": res1.values.tolist(),
+                "backgroundColor": colors[0]
+            },
+            {
+                "label": "Outflow",
+                "data": res2.values.tolist(),
+                "backgroundColor": colors[1]
+            }
+        ]
+    })
+
+@app.route('/ask_question', methods=['POST'])
+def chatbot(user_query):
+    userid_key = 11
+    with app.app_context():
+        engine = db.engine
+        session = Session(engine)
+
+        try:
+            results = session.query(Transaction).filter_by(userid=userid_key).all()
+
+        except Exception as e:
+            return "no data", 400
+    data = [r.__dict__ for r in results]
+    for row in data:
+        row.pop('_sa_instance_state', None)
+    data = pd.DataFrame(data)
+    response = ask_chatbot(user_query, data)
+    return response
+chatbot("how much did i spend in january ")
+
+
+
+
 
 
 

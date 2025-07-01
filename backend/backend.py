@@ -6,8 +6,8 @@ from werkzeug.utils import secure_filename
 import os
 import pandas as pd
 from sqlalchemy.orm import Session
-
-from category import batch_categorize
+import requests
+from category import batch_categorize, batch_categorize2
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from sqlalchemy.dialects.postgresql import JSON
@@ -18,7 +18,8 @@ from chatbot import ask_chatbot
 
 
 load_dotenv()
-
+userid = 11
+userid_key = userid
 
 app = Flask(__name__)
 CORS(app, support_credentials=True)
@@ -63,7 +64,6 @@ class Transaction(db.Model):
 @app.route('/load_categories', methods=['POST'])
 def load_categories():
     print("here")
-    userid_key = 11
     engine = db.engine
     print(engine.url)
 
@@ -100,7 +100,6 @@ def upload_csv():
         df = pd.read_csv(file_path)
         print(df.head())
         print(categories)
-        userid = 11
 
         standardized_df = df
         #standardized_df = batch_standardize(df)
@@ -133,18 +132,21 @@ def upload_csv():
             db.session.commit()
 
 
-            transaction_data = Transaction.query.filter_by(userid=userid).all()
+            transaction = Transaction.query.filter_by(userid=userid).all()
             transaction_data = pd.DataFrame([{
                 "userid": t.userid,
                 "date": t.date,
                 "description": t.description,
                 "amount": t.amount,
                 "type": t.type,
-                "category": t.category
-            } for t in transaction_data])
-            transaction_data = batch_categorize(transaction_data, categories)
-            for i, t in enumerate(transaction_data):
-                t.category = transaction_data.iloc[i]["category"]
+                "category": t.category,
+                "id": t.id,
+            } for t in transaction])
+            print(transaction_data.head())
+            transaction_data = batch_categorize2(transaction_data, categories)
+            for t in transaction:
+                new_category = transaction_data.loc[transaction_data["id"] == t.id, "category"].values[0]
+                t.category = new_category
             db.session.commit()
 
 
@@ -173,7 +175,6 @@ def upload_csv():
 @app.route('/view_transactions', methods=['POST'])
 def hello():
     print("here")
-    userid_key = 11
     engine = db.engine
     print(engine.url)
     session = Session(engine)
@@ -198,7 +199,6 @@ def hello():
 @app.route('/api/expensesby-category', methods=['POST'])
 def expenses_by_category():
     print("here")
-    userid_key = 11
     engine = db.engine
     print(engine.url)
     session = Session(engine)
@@ -233,7 +233,6 @@ def expenses_by_category():
 @app.route('/api/timegraphs', methods=['POST'])
 def time_graphs():
     print("here")
-    userid_key = 11
     engine = db.engine
     session = Session(engine)
 
@@ -283,7 +282,6 @@ def time_graphs():
 @app.route('/api/inoutgraph', methods=['POST'])
 def in_out_graphs():
     print("here")
-    userid_key = 11
     engine = db.engine
     session = Session(engine)
 
@@ -327,8 +325,8 @@ def in_out_graphs():
     })
 
 @app.route('/ask_question', methods=['POST'])
-def chatbot(user_query):
-    userid_key = 11
+def chatbot():
+    user_query = request.form['message']
     with app.app_context():
         engine = db.engine
         session = Session(engine)
@@ -343,8 +341,76 @@ def chatbot(user_query):
         row.pop('_sa_instance_state', None)
     data = pd.DataFrame(data)
     response = ask_chatbot(user_query, data)
+    print(response)
     return response
-chatbot("how much did i spend in january ")
+
+@app.route('/api/daily_qoute', methods=['POST'])
+def qoute():
+    try:
+        with app.app_context():
+            req = requests.get("https://zenquotes.io/api/today/[your_key]")
+            data = req.json()
+            data = data[0]
+            print(req)
+            print(data)
+        return jsonify({"qoute": data["q"], "author" : data["a"]})
+    except Exception as e:
+        print(e)
+        return jsonify({"qoute": "When running out of api requests, sometimes you must do things yourself", "author" : "Me"})
+
+
+@app.route('/api/earning_report', methods=['POST'])
+def earning_report():
+    engine = db.engine
+    session = Session(engine)
+
+    try:
+        results = session.query(Transaction).filter_by(userid=userid_key).all()
+
+    except Exception as e:
+        return "no data", 400
+    print(results)
+    data = [r.__dict__ for r in results]
+    for row in data:
+        row.pop('_sa_instance_state', None)
+    data = pd.DataFrame(data)
+    #last month
+    data["date"] = pd.to_datetime(data["date"])
+    current_date = datetime.datetime.now()
+    timedelta = current_date - datetime.timedelta(days=30)
+    data = data[data['date'] >= timedelta]
+
+    df_earning = data[data["type"] == "credit"]
+    earning = df_earning["amount"].sum()
+    df_spending = data[data["type"] == "debit"]
+    spending = df_spending["amount"].abs().sum()
+    net = earning - spending
+
+    return jsonify({"earning": earning, "spending": spending, "net": net})
+
+@app.route('/api/recent_transactions', methods=['POST'])
+def recent_transactions():
+    engine = db.engine
+    session = Session(engine)
+
+    try:
+        results = session.query(Transaction).filter_by(userid=userid_key).all()
+
+    except Exception as e:
+        return "no data", 400
+    print(results)
+    data = [r.__dict__ for r in results]
+    for row in data:
+        row.pop('_sa_instance_state', None)
+    data = pd.DataFrame(data)
+
+    data["date"] = pd.to_datetime(data["date"])
+    data.sort_values("date", inplace=True)
+    recent_data = data.head(10)
+
+    return jsonify({recent_data})
+
+
 
 
 

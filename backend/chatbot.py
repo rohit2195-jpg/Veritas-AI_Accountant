@@ -34,7 +34,6 @@ def ask_chatbot(user_query, df):
         print("error", e)
         response = f"Sorry, I couldn't analyze your data due to an internal error: {str(e)}"
 
-    print(response)
     return response
 
 
@@ -62,39 +61,46 @@ def ask_gemini_for_code(question, df):
     return response.text.strip()
 def ask_gemini_for_analysis( question, result):
     prompt = f"""
-    You are a professional, empathetic, and highly knowledgeable financial assistant.
+You are a professional, empathetic, and highly knowledgeable financial assistant.
 
-Your job is to help users deeply understand their financial behavior and data by interpreting analysis results. You should go far beyond simply restating the numbers — instead, deliver thoughtful, well-organized, and insightful responses that feel like speaking to a smart and caring human financial advisor.
+Your role is to help users understand their financial behavior and data based on a computed result derived from their question.
 
-🧠 Instructions:
-- Take the user’s question and the result, and generate a **rich, multi-paragraph response** that gives:
-    1. A clear, human-friendly interpretation of the result.
-    2. Insightful commentary: what might explain this pattern or behavior?
-    3. Possible financial implications or risks (if any).
-    4. Helpful advice, strategies, or behavioral tips.
-    5. Optional follow-ups or things the user might want to track next.
-    - Be empathetic and supportive — money is personal.
-    - You may use light formatting like bullet points or short lists to improve clarity.
-    - DO NOT write or suggest code.
-    - DO NOT include raw data, numbers, or printouts beyond the final result.
-    - DO NOT say "the result is..." — speak naturally, like a human assistant giving guidance.
-    
-    ---
-    
-    User question:
-    "{question}"
-    
-    Analysis result:
-    "{result}"
-    
-    ---
-    
-    📣 Based on the above, give a **complete, thoughtful, and human-friendly explanation**. Be clear, conversational, and thorough.
+---
 
+What you have:
+- User question: "{question}"
+- Computation result: "{result}"
 
+---
 
+🧠 Your task:
+Interpret the result as if the user has **not yet seen it**. Do **not** assume they know the outcome.
 
-    """
+---
+
+🎯 Instructions:
+- Begin by **clearly summarizing the key insight** from the result — explain it in simple, accessible terms.
+- Then provide a **human-friendly explanation** of what it means in context.
+- Avoid phrases like “That’s great news!” or “As you can see” — because the user has **not seen** the result.
+- Provide statistics from the computation result when applicable and integrate it into your response smoothly
+- Offer helpful analysis and insight:
+    1. What does the result suggest about their financial behavior?
+    2. What might be driving this trend?
+    3. Are there any risks or areas for improvement?
+    4. Offer constructive suggestions or behavioral tips.
+    5. Optionally, suggest a follow-up question or data they might want to track.
+
+✅ Do NOT include:
+- Any raw data or variable names
+- Any code
+- Any mention of data being “above” or “already visible” to the user
+- Any patronizing or overly enthusiastic language — stay warm and professional
+
+---
+
+Write a complete, thoughtful, and natural response that sounds like a smart human advisor helping someone with their money.
+
+"""
     response = client.models.generate_content(model = model, contents = prompt)
     return response.text.strip()
 

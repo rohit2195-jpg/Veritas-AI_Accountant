@@ -1,0 +1,11 @@
+.message.assistant {
+    background: #9dceff;
+    padding: 10px;
+    margin-right: 20px;
+
+}
+.message.user {
+    background: #ffffff;
+    padding: 10px;
+    margin-left: 20px;
+}

@@ -1,0 +1,96 @@
+date,description,amount,type
+2025-04-01,Salary Payment,3250.00,credit
+2025-04-02,Grocery Store - Trader Joe's,-132.45,debit
+2025-04-02,Starbucks Coffee,-5.25,debit
+2025-04-03,Apple Music Subscription,-10.99,debit
+2025-04-03,Amazon Order - Phone Charger,-14.99,debit
+2025-04-04,Uber Ride,-13.70,debit
+2025-04-04,Fast Food - McDonald's,-9.85,debit
+2025-04-05,Freelance Income,300.00,credit
+2025-04-05,Gas Station - Chevron,-41.20,debit
+2025-04-06,Lunch - Chipotle,-11.30,debit
+2025-04-06,Grocery Store - Whole Foods,-89.45,debit
+2025-04-07,ATM Withdrawal,-60.00,debit
+2025-04-08,Amazon Order - Books,-29.95,debit
+2025-04-09,Internet Bill - Xfinity,-55.00,debit
+2025-04-10,Starbucks Coffee,-6.10,debit
+2025-04-11,Movie Theater,-17.50,debit
+2025-04-12,Water Bill,-38.25,debit
+2025-04-12,Dinner Out - Thai Food,-54.00,debit
+2025-04-13,Apple App Store - In-App Purchase,-4.99,debit
+2025-04-14,Grocery Store - Costco,-152.80,debit
+2025-04-15,Mobile Bill - Verizon,-65.00,debit
+2025-04-16,ATM Withdrawal,-100.00,debit
+2025-04-17,Lunch - Panda Express,-10.20,debit
+2025-04-18,Spotify Subscription,-10.99,debit
+2025-04-19,Taxi Fare,-21.50,debit
+2025-04-20,Clothing Store - Gap,-84.30,debit
+2025-04-21,Gas Station - Shell,-42.80,debit
+2025-04-22,Online Donation - Charity,-20.00,debit
+2025-04-23,Freelance Income,450.00,credit
+2025-04-24,Grocery Store - Safeway,-98.60,debit
+2025-04-25,Amazon Order - Kitchen Supplies,-33.99,debit
+2025-04-26,Pet Store - Dog Food,-27.50,debit
+2025-04-27,Lunch - Pizza Place,-14.60,debit
+2025-04-28,Starbucks Coffee,-5.65,debit
+2025-04-29,ATM Withdrawal,-80.00,debit
+2025-04-30,Salary Payment,3250.00,credit
+2025-05-01,Grocery Store - Trader Joe's,-141.30,debit
+2025-05-01,Netflix Subscription,-15.49,debit
+2025-05-02,Amazon Order - Electronics,-124.89,debit
+2025-05-03,Dinner - Sushi Restaurant,-61.90,debit
+2025-05-04,Lunch - Food Truck,-9.75,debit
+2025-05-05,Gas Station - Chevron,-45.60,debit
+2025-05-06,Starbucks Coffee,-6.00,debit
+2025-05-07,Clothing Store - H&M,-72.10,debit
+2025-05-08,Electricity Bill,-81.90,debit
+2025-05-09,Uber Ride,-16.40,debit
+2025-05-10,Grocery Store - Safeway,-117.20,debit
+2025-05-11,Freelance Income,400.00,credit
+2025-05-12,Cinema - Movie Night,-27.00,debit
+2025-05-13,Spotify Subscription,-10.99,debit
+2025-05-14,Lunch - Panera Bread,-13.45,debit
+2025-05-15,Mobile Bill - Verizon,-65.00,debit
+2025-05-16,ATM Withdrawal,-60.00,debit
+2025-05-17,Amazon Order - Household,-34.50,debit
+2025-05-18,Dinner - BBQ Spot,-58.30,debit
+2025-05-19,Water Bill,-39.10,debit
+2025-05-20,Online Gaming Subscription,-12.99,debit
+2025-05-21,Grocery Store - Costco,-149.90,debit
+2025-05-22,Gas Station - Mobil,-48.00,debit
+2025-05-23,Fast Food - Burger King,-8.80,debit
+2025-05-24,Uber Ride,-19.30,debit
+2025-05-25,Freelance Income,275.00,credit
+2025-05-26,Starbucks Coffee,-5.55,debit
+2025-05-27,ATM Withdrawal,-100.00,debit
+2025-05-28,Grocery Store - Whole Foods,-97.45,debit
+2025-05-29,Amazon Order - Tech Accessories,-56.70,debit
+2025-05-30,Salary Payment,3250.00,credit
+2025-06-01,Grocery Store - Trader Joe's,-144.20,debit
+2025-06-02,Apple iCloud Storage,-0.99,debit
+2025-06-03,Starbucks Coffee,-6.75,debit
+2025-06-04,Freelance Income,350.00,credit
+2025-06-05,Lunch - Deli,-12.10,debit
+2025-06-06,Gas Station - Shell,-46.30,debit
+2025-06-07,Internet Bill - Xfinity,-55.00,debit
+2025-06-08,Coffee Shop - Local Cafe,-4.95,debit
+2025-06-09,Online Clothing Order,-79.90,debit
+2025-06-10,Mobile Bill - Verizon,-65.00,debit
+2025-06-11,Dinner - Mexican Grill,-52.40,debit
+2025-06-12,Spotify Subscription,-10.99,debit
+2025-06-13,Amazon Order - Misc.,-29.99,debit
+2025-06-14,ATM Withdrawal,-60.00,debit
+2025-06-15,Lunch - Panini Place,-11.60,debit
+2025-06-16,Gas Station - Chevron,-47.50,debit
+2025-06-17,Grocery Store - Safeway,-123.70,debit
+2025-06-18,Apple App Store - Subscription,-9.99,debit
+2025-06-19,Uber Ride,-18.80,debit
+2025-06-20,Freelance Income,500.00,credit
+2025-06-21,Fast Food - Wendy's,-10.45,debit
+2025-06-22,Water Bill,-40.20,debit
+2025-06-23,Grocery Store - Whole Foods,-92.40,debit
+2025-06-24,Amazon Order - Gifts,-63.00,debit
+2025-06-25,ATM Withdrawal,-80.00,debit
+2025-06-26,Coffee - Dunkin Donuts,-3.99,debit
+2025-06-26,Lunch - Ramen Spot,-14.20,debit
+2025-06-27,Starbucks Coffee,-5.90,debit

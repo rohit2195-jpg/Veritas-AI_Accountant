@@ -1,0 +1,54 @@
+date,description,amount,type
+2025-04-01,Salary Payment,3250.00,credit
+2025-04-03,Grocery - Whole Foods,-134.65,debit
+2025-04-04,Pet Supplies - PetSmart,-76.29,debit
+2025-04-06,Flight to Chicago,-245.60,debit
+2025-04-07,ATM Withdrawal,-100.00,debit
+2025-04-08,Coffee - Local Cafe,-4.85,debit
+2025-04-10,Freelance Project (Design),800.00,credit
+2025-04-11,Hotel - Chicago Stay,-310.20,debit
+2025-04-13,Train Ticket - Amtrak,-58.00,debit
+2025-04-14,Mobile Bill - Verizon,-72.40,debit
+2025-04-15,Rent Payment,-1300.00,debit
+2025-04-17,Spotify Subscription,-10.99,debit
+2025-04-18,Etsy Sale (Art Print),67.00,credit
+2025-04-20,Brunch - The Green Egg,-28.90,debit
+2025-04-22,Gas Station - Shell,-46.78,debit
+2025-04-23,Pharmacy - CVS,-19.65,debit
+2025-04-26,Tax Refund,420.50,credit
+2025-04-28,Movie Night - AMC,-32.00,debit
+2025-05-01,Salary Payment,3250.00,credit
+2025-05-02,Grocery - Trader Joe's,-119.25,debit
+2025-05-03,Vet Appointment,-95.00,debit
+2025-05-05,Parking Fine,-55.00,debit
+2025-05-07,Gift for Mom - Etsy,-43.80,debit
+2025-05-08,Coffee - Starbucks,-6.15,debit
+2025-05-09,Freelance Work - Blog Writing,400.00,credit
+2025-05-11,Concert Tickets,-88.00,debit
+2025-05-13,Electric Bill - City Utilities,-102.45,debit
+2025-05-15,Rent Payment,-1300.00,debit
+2025-05-17,Dog Walker Payment,-40.00,debit
+2025-05-19,YouTube Premium,-11.99,debit
+2025-05-21,Bar Night - Craft Pub,-37.60,debit
+2025-05-24,PayPal Refund,15.00,credit
+2025-05-25,Thrift Store - Goodwill,-22.40,debit
+2025-05-27,Interest Earned,3.75,credit
+2025-05-29,Bike Repair Shop,-49.90,debit
+2025-06-01,Salary Payment,3250.00,credit
+2025-06-02,Farmer's Market,-44.20,debit
+2025-06-03,Water Bill,-36.80,debit
+2025-06-04,Streaming Service - Max,-14.99,debit
+2025-06-05,Lunch - Sandwich Deli,-12.65,debit
+2025-06-07,Freelance - Photography Gig,600.00,credit
+2025-06-09,Online Course - Udemy,-19.99,debit
+2025-06-11,Gas Station - Exxon,-48.30,debit
+2025-06-13,Stock Dividend,72.00,credit
+2025-06-15,Rent Payment,-1300.00,debit
+2025-06-17,Clothing - H&M,-85.45,debit
+2025-06-18,ATM Fee,-3.00,debit
+2025-06-20,Dinner - Italian Bistro,-57.10,debit
+2025-06-22,Haircut - Salon Luxe,-33.00,debit
+2025-06-24,CashApp Transfer (Friend),-50.00,debit
+2025-06-26,Refund - Cancelled Booking,120.00,credit
+2025-06-28,Yoga Class Drop-in,-18.00,debit
+2025-06-30,Coffee - Local Roasters,-5.30,debit

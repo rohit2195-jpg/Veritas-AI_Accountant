@@ -1,0 +1,21 @@
+/* App.css or Nav.module.css depending on your setup */
+.nav {
+  display: flex;
+  justify-content: space-between; /* or "center" if you prefer */
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #1e1e2f; /* dark background for dashboard look */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav a {
+  text-decoration: none;
+  color: white;
+  margin: 0rem 5rem;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav a:hover {
+  color: #66d9ef; /* highlight color on hover */
+}

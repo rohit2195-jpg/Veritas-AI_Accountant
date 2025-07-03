@@ -21,8 +21,17 @@ ChartJS.register(
     Legend
 );
 
+interface Transaction {
+    id: number;
+    date: string;
+    description: string;
+    amount: number;
+    type: string;
+    category: string;
+}
 import {Bar, Pie, Line} from "react-chartjs-2";
 
+import './css/Home.css';
 
 
 
@@ -35,7 +44,7 @@ function Home() {
     const currTime = new Date().toLocaleTimeString();
     const currDate = new Date().toLocaleDateString();
 
-    const [recent_transactions, setRecentTransactions] = useState<any>(null);
+    const [recent_transactions, setRecentTransactions] = useState<Transaction[]>([]);
     const [report, setReport] = useState({
         earning: null,
         spending: null,
@@ -49,9 +58,27 @@ function Home() {
         getCategories();
         getTimeGraphs();
         getinoutgraph();
-        getQoute()
-        getEarningReport()
+        getQoute();
+        getEarningReport();
+        getTransactionView();
     }, []);
+
+    async function getTransactionView() {
+        const formData = new FormData();
+        formData.append("userid", "11");
+
+        try {
+            const response = await axios.post('http://127.0.0.1:5000/api/recent_transactions', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
+            console.log('Upload successful:', response.data);
+            setRecentTransactions(response.data); // Save data to state
+        } catch (error) {
+            console.error('Upload failed:', error);
+        }
+    }
 
 
     async function getEarningReport() {
@@ -148,30 +175,104 @@ function Home() {
 
 
     return (
-        <div>
-            <h2>Home Page</h2>
+        <div className="widgets">
 
-            <div className="wid1">
-                <p> {currTime}  </p>
-                <p> {currDate} </p>
-            </div>
-            <div className="wid2">
-            <p>Quote of the day:{author} {qoute} </p>
-            </div>
-            <div className="charts" style={{ height: 400 }}>
-                {graphs && <Pie data={graphs} />}
 
-                <div className="earning-report">
-                    <p>Earnings: {report.earning}</p>
-                    <p>Spending: {report.spending}</p>
-                    <p>Net: {report.net}</p>
+            <div className="info">
+                <span className={"time"}> {currTime} <br/> </span>
+                <span className = {"date"}> {currDate}</span>
+            </div>
+            <div className="pie">
+                <h3 className="pietitle">This Month’s Spending by Category</h3>
+                <div className="pie-chart-container">
+                    {graphs && (
+                        <Pie
+                            data={graphs}
+                            options={{
+                                plugins: {
+                                    legend: { display: false }
+                                },
+                                responsive: true,
+                                maintainAspectRatio: false
+                            }}
+                        />
+                    )}
+                </div>
+            </div>
+
+            <div className="earning-report">
+                <h2>This Month’s Report</h2>
+                <div className="report-row">
+                    <span>Earnings:</span>
+                    <span className="report-value positive">${report.earning}</span>
+                </div>
+                <div className="report-row">
+                    <span>Spending:</span>
+                    <span className="report-value negative">${report.spending}</span>
+                </div>
+                <div className="report-row">
+                    <span>Net:</span>
+                    <span className={`report-value ${report.net >= 0 ? 'positive' : 'negative'}`}>
+                      ${report.net}
+                    </span>
+                </div>
+            </div>
+
+            <div className="quote">
+                <h3 className="quote-title">Quote of the Day</h3>
+
+                <div className="quote-content">
+                    <q>{qoute}</q>
                 </div>
 
+                <div className="quote-author">
+                    <span>~ {author}</span>
+                </div>
+            </div>
+
+
+            <div className="transaction">
+                <span className={"transaction-title"}> Your recent transaction data:</span>
+                <table cellPadding="8" style={{ borderCollapse: 'collapse', width: '100%' }}>
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Category</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {recent_transactions.map((item, index) => (
+                        <tr key={index}>
+                            <td>{new Date(item.date).toLocaleDateString()}</td>
+                            <td>{item.description}</td>
+                            <td>{item.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                            <td>{item.category}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+
+            <div className="spending-month">
                 {timeGraph && <Bar data={timeGraph} />}
-                {inoutgraph && <Bar data={inoutgraph} />}
 
 
             </div>
+
+            <div className="spending-year">
+                {inoutgraph && <Bar data={inoutgraph} />}
+
+            </div>
+
+
+
+
 
 
 

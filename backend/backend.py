@@ -227,7 +227,8 @@ def expenses_by_category():
                 "data": res.values.tolist(),
                 "backgroundColor": colors[:len(res)]
             }
-        ]
+        ],
+
     })
 
 @app.route('/api/timegraphs', methods=['POST'])
@@ -346,6 +347,7 @@ def chatbot():
 
 @app.route('/api/daily_qoute', methods=['POST'])
 def qoute():
+    '''
     try:
         with app.app_context():
             req = requests.get("https://zenquotes.io/api/today/[your_key]")
@@ -357,6 +359,8 @@ def qoute():
     except Exception as e:
         print(e)
         return jsonify({"qoute": "When running out of api requests, sometimes you must do things yourself", "author" : "Me"})
+    '''
+    return jsonify({"qoute": "When running out of api requests, sometimes you must do things yourself", "author" : "Me"})
 
 
 @app.route('/api/earning_report', methods=['POST'])
@@ -408,7 +412,7 @@ def recent_transactions():
     data.sort_values("date", inplace=True)
     recent_data = data.head(10)
 
-    return jsonify({recent_data})
+    return jsonify(recent_data.to_dict(orient='records'))
 
 
 

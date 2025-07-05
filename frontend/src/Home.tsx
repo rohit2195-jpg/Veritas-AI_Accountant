@@ -204,16 +204,19 @@ function Home() {
                 <h2>This Month’s Report</h2>
                 <div className="report-row">
                     <span>Earnings:</span>
-                    <span className="report-value positive">${report.earning}</span>
+                    <span className="report-value positive">
+                      ${Math.round(report.earning ?? 0)}
+                    </span>
+
                 </div>
                 <div className="report-row">
                     <span>Spending:</span>
-                    <span className="report-value negative">${report.spending}</span>
+                    <span className="report-value negative">${Math.round(report.spending ?? 0)}</span>
                 </div>
                 <div className="report-row">
                     <span>Net:</span>
-                    <span className={`report-value ${report.net >= 0 ? 'positive' : 'negative'}`}>
-                      ${report.net}
+                    <span className={`report-value ${Math.round(report.net ?? 0) >= 0 ? 'positive' : 'negative'}`}>
+                      ${Math.round(report.net ?? 0)}
                     </span>
                 </div>
             </div>

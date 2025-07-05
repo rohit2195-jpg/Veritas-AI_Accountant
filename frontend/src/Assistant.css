@@ -1,11 +1,77 @@
-.message.assistant {
-    background: #9dceff;
-    padding: 10px;
-    margin-right: 20px;
+.stuff {
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    font-family: 'Inter', sans-serif;
+    background-color: #f7f8fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.message {
+    padding: 0.9rem 1.25rem;
+    border-radius: 2rem;
+    max-width: 70%;
+    line-height: 1;
+    font-size: 1rem;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 
 }
+
+/* User messages */
 .message.user {
-    background: #ffffff;
-    padding: 10px;
-    margin-left: 20px;
+    align-self: flex-end;
+    background-color: #5c6ac4;
+    color: white;
+    border-bottom-right-radius: 0;
+
+}
+
+/* Assistant messages */
+.message.assistant {
+    align-self: flex-start;
+    background-color: #e2e8f0;
+    color: #1a1a1a;
+    border-bottom-left-radius: 0;
+}
+
+/* Chat input form */
+.form {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 50rem !important;
+    margin: auto;
+    display: flex;
+    padding: 1rem;
+    background: white;
+    gap: 0.75rem;
+    border-radius: 2rem;
+}
+
+.input {
+    flex-grow: 1;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.submit {
+    background-color: #5c6ac4;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.submit:hover {
+    background-color: #4e5bbd;
 }

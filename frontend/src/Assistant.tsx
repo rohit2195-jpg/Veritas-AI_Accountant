@@ -15,13 +15,10 @@ function Assistant() {
     const [messages, setMessages] = useState<Message[]>([
 
         {
-            message:"Sample",
+            message:"Hello, what can I do for you today? I'm here to help with you finances.",
             sender: "assistant",
         },
-        {
-            message:"Sample 12",
-            sender:"user"
-        }
+
     ]);
     const newMessage: React.FormEventHandler = async (event) => {
         event.preventDefault();
@@ -65,7 +62,7 @@ function Assistant() {
         }
     }
     return (
-        <div>
+        <div className={"stuff"}>
             {messages.map((message, index) => (
                 <p key={index} className={"message " + message.sender}>
                     <ReactMarkdown>{message.message}</ReactMarkdown>
@@ -73,12 +70,12 @@ function Assistant() {
             ))}
 
 
-            <form onSubmit={newMessage}>
+            <form onSubmit={newMessage} className={"form"}>
                 <input type="text" placeholder="Message"
-                       value = {newInput}
+                       value = {newInput} className={"input"}
                        onChange={(e) => setNewInput(e.currentTarget.value)}
                 />
-                <button type="submit">Send</button>
+                <button type="submit" className={"submit"}>Send</button>
             </form>
         </div>
     );

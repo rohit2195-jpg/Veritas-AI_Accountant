@@ -8,6 +8,8 @@ interface Transaction {
     type: string;
     category: string;
 }
+import './css/Transaction.css';
+
 function Data() {
     const [categories, setCategories] = useState<Transaction[]>([]);
 
@@ -33,10 +35,9 @@ function Data() {
     }, []); // Empty dependency array = run once on mount
 
     return (
-        <div>
-            <h2>Transaction Data</h2>
-            <p>Below is your transaction data:</p>
-            <table cellPadding="8" style={{ borderCollapse: 'collapse', width: '100%' }}>
+        <div className={"container"}>
+            <h2>Transaction Data: </h2>
+            <table cellPadding="8" className="table">
                 <thead>
                 <tr>
                     <th>ID</th>

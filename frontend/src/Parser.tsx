@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Uploader from "./Components/Uploader.tsx";
 import axios from 'axios';
+import './css/Parser.css';
 
 
 // Define the shape of a category
@@ -97,9 +98,10 @@ const Parser: React.FC = () => {
     };
 
     return (
-        <div>
-            <h2>Parser Page</h2>
+        <div className="container">
+            <h2>1. Upload financial transaction history</h2>
             <Uploader file={file} setFile={setFile} />
+            <h2>2. Set your desired categories</h2>
             <button onClick={handleAddCategory}>Add Category</button>
 
 
@@ -130,8 +132,8 @@ const Parser: React.FC = () => {
 
             {status === "uploading" && <p>{progress}</p>}
             {status === "success" && <p>file uplaoded</p>}
-
-            {file && status !== "uploading" && <button onClick={handleUpload}>Upload</button>}
+            <h2>3. Upload!</h2>
+            {file && status !== "uploading" && <button className={"upload"} onClick={handleUpload}>Upload</button>}
         </div>
     );
 };

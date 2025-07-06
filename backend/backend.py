@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
@@ -70,6 +70,8 @@ def load_categories():
     except Exception as e:
         print("Error:", e)
         return jsonify({"error": str(e)}), 500
+    finally:
+        db.session.close()
     return pref.categories
 
 @app.route('/uploadcsv', methods=['POST'])
@@ -77,8 +79,7 @@ def upload_csv():
     engine = db.engine
 
     if 'filename' not in request.files:
-        print("Error:", e)
-        return jsonify({"error": str(e)}), 500
+        return "error", 400
     file = request.files['filename']
     categories = request.form['categories']
     if file.filename == '':
@@ -155,15 +156,15 @@ def upload_csv():
         if os.path.exists(file_path):
             os.remove(file_path)
         '''
+        db.session.remove()
         return jsonify({'filename': filename}), 200
 
 @app.route('/view_transactions', methods=['POST'])
 def hello():
     engine = db.engine
-    session = Session(engine)
 
     try:
-        results = session.query(Transaction).filter_by(userid=userid_key).all()
+        results = db.session.query(Transaction).filter_by(userid=userid_key).all()
     except Exception as e:
         print("Error:", e)
         return jsonify({"error": str(e)}), 500
@@ -172,7 +173,7 @@ def hello():
         row.pop('_sa_instance_state', None)
     df = pd.DataFrame(data)
     df.drop("userid", axis=1, inplace=True)
-
+    db.session.remove()
     return jsonify(df.to_dict(orient='records'))
 
 
@@ -180,10 +181,9 @@ def hello():
 @app.route('/api/expensesby-category', methods=['POST'])
 def expenses_by_category():
     engine = db.engine
-    session = Session(engine)
 
     try:
-        results = session.query(Transaction).filter_by(userid=userid_key).all()
+        results = db.session.query(Transaction).filter_by(userid=userid_key).all()
     except Exception as e:
         print("Error:", e)
         return jsonify({"error": str(e)}), 500
@@ -197,6 +197,7 @@ def expenses_by_category():
     spending = df_last_year[data["type"] == "debit"]
     spending["amount"] = spending["amount"].abs()
     res = spending.groupby("category")['amount'].sum()
+    db.session.remove()
 
     return jsonify({
         "labels": res.index.tolist(),
@@ -212,10 +213,9 @@ def expenses_by_category():
 @app.route('/api/timegraphs', methods=['POST'])
 def time_graphs():
     engine = db.engine
-    session = Session(engine)
 
     try:
-        results = session.query(Transaction).filter_by(userid=userid_key).all()
+        results = db.session.query(Transaction).filter_by(userid=userid_key).all()
 
     except Exception as e:
         print("Error:", e)
@@ -240,6 +240,8 @@ def time_graphs():
     res1 = res1.reindex(months, fill_value=0)
     res2 = res2.reindex(months, fill_value=0)
 
+    db.session.remove()
+
     return jsonify({
         "labels": [calendar.month_name[m] for m in months],
         "datasets": [
@@ -260,10 +262,9 @@ def time_graphs():
 @app.route('/api/inoutgraph', methods=['POST'])
 def in_out_graphs():
     engine = db.engine
-    session = Session(engine)
 
     try:
-        results = session.query(Transaction).filter_by(userid=userid_key).all()
+        results = db.session.query(Transaction).filter_by(userid=userid_key).all()
 
     except Exception as e:
         print("Error:", e)
@@ -284,6 +285,8 @@ def in_out_graphs():
 
     res1 = res1.reindex(years, fill_value=0)
     res2 = res2.reindex(years, fill_value=0)
+
+    db.session.remove()
 
     return jsonify({
         "labels": years,
@@ -306,10 +309,9 @@ def chatbot():
     user_query = request.form['message']
     with app.app_context():
         engine = db.engine
-        session = Session(engine)
 
         try:
-            results = session.query(Transaction).filter_by(userid=userid_key).all()
+            results = db.session.query(Transaction).filter_by(userid=userid_key).all()
 
         except Exception as e:
             print("Error:", e)
@@ -319,6 +321,7 @@ def chatbot():
         row.pop('_sa_instance_state', None)
     data = pd.DataFrame(data)
     response = ask_chatbot(user_query, data)
+    db.session.remove()
     return response
 
 @app.route('/api/daily_qoute', methods=['POST'])
@@ -354,16 +357,17 @@ def getQoute():
 
         except Exception as e:
             print(e)
+
     else:
         return jsonify({"qoute": content[0], "author" : content[1]})
+
 
 @app.route('/api/earning_report', methods=['POST'])
 def earning_report():
     engine = db.engine
-    session = Session(engine)
 
     try:
-        results = session.query(Transaction).filter_by(userid=userid_key).all()
+        results = db.session.query(Transaction).filter_by(userid=userid_key).all()
 
     except Exception as e:
         print("Error:", e)
@@ -384,15 +388,15 @@ def earning_report():
     spending = df_spending["amount"].abs().sum()
     net = earning - spending
 
+    db.session.remove()
     return jsonify({"earning": earning, "spending": spending, "net": net})
 
 @app.route('/api/recent_transactions', methods=['POST'])
 def recent_transactions():
     engine = db.engine
-    session = Session(engine)
 
     try:
-        results = session.query(Transaction).filter_by(userid=userid_key).all()
+        results = db.session.query(Transaction).filter_by(userid=userid_key).all()
 
     except Exception as e:
         return "no data", 400
@@ -404,6 +408,7 @@ def recent_transactions():
     data["date"] = pd.to_datetime(data["date"])
     data.sort_values("date", inplace=True)
     recent_data = data.head(10)
+
 
     return jsonify(recent_data.to_dict(orient='records'))
 

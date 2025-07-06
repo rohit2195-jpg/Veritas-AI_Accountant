@@ -41,7 +41,7 @@ function Home() {
     const [inoutgraph, setinoutgraph] = useState<any>(null);
     const [qoute, setqoute] = useState<any>(null);
     const [author, setauthor] = useState<any>(null);
-    const currTime = new Date().toLocaleTimeString();
+    const [time, setTime] = useState(new Date());
     const currDate = new Date().toLocaleDateString();
 
     const [recent_transactions, setRecentTransactions] = useState<Transaction[]>([]);
@@ -51,7 +51,14 @@ function Home() {
         net: null
     });
 
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setTime(new Date());
+        }, 1000); // Update every second
 
+        // Cleanup function to clear the interval
+        return () => clearInterval(intervalId);
+    }, []);
 
 
     useEffect(() => {
@@ -179,7 +186,7 @@ function Home() {
 
 
             <div className="info">
-                <span className={"time"}> {currTime} <br/> </span>
+                <span className={"time"}> {time.toLocaleTimeString()} <br/> </span>
                 <span className = {"date"}> {currDate}</span>
             </div>
             <div className="pie">

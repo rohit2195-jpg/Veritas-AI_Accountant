@@ -63,16 +63,13 @@ class Transaction(db.Model):
 
 @app.route('/load_categories', methods=['POST'])
 def load_categories():
-    print("here")
     engine = db.engine
-    print(engine.url)
 
     try:
         pref = db.session.get(Preferences, userid_key)
-        print(pref)
     except Exception as e:
-        return "no data", 400
-    print(pref.categories)
+        print("Error:", e)
+        return jsonify({"error": str(e)}), 500
     return pref.categories
 
 @app.route('/uploadcsv', methods=['POST'])
@@ -80,14 +77,13 @@ def upload_csv():
     engine = db.engine
 
     if 'filename' not in request.files:
-        return jsonify({'error': 'No file found'}), 400
+        print("Error:", e)
+        return jsonify({"error": str(e)}), 500
     file = request.files['filename']
     categories = request.form['categories']
-    print(file)
     if file.filename == '':
         return jsonify({'error': 'No file found'}), 400
 
-    print("Current working directory:", os.getcwd())
 
     filename = secure_filename(file.filename)
     file_path = os.path.join(".", "uploads", filename)
@@ -95,20 +91,16 @@ def upload_csv():
 
     try:
         standard_columns = ['date', 'description', 'amount', 'balance']
-        print("here")
 
         df = pd.read_csv(file_path)
-        print(df.head())
-        print(categories)
+
 
         standardized_df = df
         #standardized_df = batch_standardize(df)
-        print("After cleaning")
-        print(standardized_df.head())
+
         sameCategories = True
         # check is it the same categoires form the dataset
         standardized_df["userid"] = userid
-        print(standardized_df.head())
         db.create_all()
 
 
@@ -121,13 +113,11 @@ def upload_csv():
         #same categories - easy
         if categories == pref.categories:
             standardized_df = batch_categorize(standardized_df, categories)
-            print("After categorization")
-            print(standardized_df.head())
+
 
             standardized_df.to_sql('transaction', con=engine, if_exists='append', index=False)
             #upload it to exisiting dataset
         else:
-            print("not same categories")
             pref.categories = categories
             db.session.commit()
 
@@ -142,7 +132,6 @@ def upload_csv():
                 "category": t.category,
                 "id": t.id,
             } for t in transaction])
-            print(transaction_data.head())
             transaction_data = batch_categorize2(transaction_data, categories)
             for t in transaction:
                 new_category = transaction_data.loc[transaction_data["id"] == t.id, "category"].values[0]
@@ -151,21 +140,17 @@ def upload_csv():
 
 
             standardized_df = batch_categorize(standardized_df, categories)
-            print(standardized_df.head())
 
             standardized_df.to_sql('transaction', con=engine, if_exists='append', index=False)
 
 
         pref = db.session.get(Preferences, userid)
-        print(pref.categories)
 
         standardized_df.to_csv("temp.csv", index=False)
     except Exception as e:
-        print("Error reading file")
         print(f"Error reading or processing file: {e}")
 
     finally:
-        print("done")
         '''
         if os.path.exists(file_path):
             os.remove(file_path)
@@ -174,23 +159,19 @@ def upload_csv():
 
 @app.route('/view_transactions', methods=['POST'])
 def hello():
-    print("here")
     engine = db.engine
-    print(engine.url)
     session = Session(engine)
 
     try:
         results = session.query(Transaction).filter_by(userid=userid_key).all()
-        print(results)
     except Exception as e:
-        return "no data", 400
-    print(results)
+        print("Error:", e)
+        return jsonify({"error": str(e)}), 500
     data = [r.__dict__ for r in results]
     for row in data:
         row.pop('_sa_instance_state', None)
     df = pd.DataFrame(data)
     df.drop("userid", axis=1, inplace=True)
-    print(df)
 
     return jsonify(df.to_dict(orient='records'))
 
@@ -198,17 +179,14 @@ def hello():
 #Dashboard charts
 @app.route('/api/expensesby-category', methods=['POST'])
 def expenses_by_category():
-    print("here")
     engine = db.engine
-    print(engine.url)
     session = Session(engine)
 
     try:
         results = session.query(Transaction).filter_by(userid=userid_key).all()
-        print(results)
     except Exception as e:
-        return "no data", 400
-    print(results)
+        print("Error:", e)
+        return jsonify({"error": str(e)}), 500
     data = [r.__dict__ for r in results]
     for row in data:
         row.pop('_sa_instance_state', None)
@@ -233,7 +211,6 @@ def expenses_by_category():
 
 @app.route('/api/timegraphs', methods=['POST'])
 def time_graphs():
-    print("here")
     engine = db.engine
     session = Session(engine)
 
@@ -241,8 +218,8 @@ def time_graphs():
         results = session.query(Transaction).filter_by(userid=userid_key).all()
 
     except Exception as e:
-        return "no data", 400
-    print(results)
+        print("Error:", e)
+        return jsonify({"error": str(e)}), 500
     data = [r.__dict__ for r in results]
     for row in data:
         row.pop('_sa_instance_state', None)
@@ -282,7 +259,6 @@ def time_graphs():
 
 @app.route('/api/inoutgraph', methods=['POST'])
 def in_out_graphs():
-    print("here")
     engine = db.engine
     session = Session(engine)
 
@@ -290,8 +266,8 @@ def in_out_graphs():
         results = session.query(Transaction).filter_by(userid=userid_key).all()
 
     except Exception as e:
-        return "no data", 400
-    print(results)
+        print("Error:", e)
+        return jsonify({"error": str(e)}), 500
     data = [r.__dict__ for r in results]
     for row in data:
         row.pop('_sa_instance_state', None)
@@ -336,32 +312,50 @@ def chatbot():
             results = session.query(Transaction).filter_by(userid=userid_key).all()
 
         except Exception as e:
-            return "no data", 400
+            print("Error:", e)
+            return jsonify({"error": str(e)}), 500
     data = [r.__dict__ for r in results]
     for row in data:
         row.pop('_sa_instance_state', None)
     data = pd.DataFrame(data)
     response = ask_chatbot(user_query, data)
-    print(response)
     return response
 
 @app.route('/api/daily_qoute', methods=['POST'])
-def qoute():
-    '''
-    try:
-        with app.app_context():
-            req = requests.get("https://zenquotes.io/api/today/[your_key]")
-            data = req.json()
-            data = data[0]
-            print(req)
-            print(data)
-        return jsonify({"qoute": data["q"], "author" : data["a"]})
-    except Exception as e:
-        print(e)
-        return jsonify({"qoute": "When running out of api requests, sometimes you must do things yourself", "author" : "Me"})
-    '''
-    return jsonify({"qoute": "When running out of api requests, sometimes you must do things yourself", "author" : "Me"})
+def getQoute():
+    file = open('qoute.txt', 'r')
+    content = file.readlines()
+    for i in range(len(content)):
+        content[i] = content[i].strip()
+    curr_date = datetime.date.today()
+    if content:
+        qoute_date = datetime.datetime.strptime(content[2], "%Y-%m-%d").date()
+        qoute = content[0]
+        author = content[1]
+    file.close()
 
+    if not content or qoute_date < curr_date:
+        #update or change qoute
+        try:
+            with app.app_context():
+                req = requests.get("https://zenquotes.io/api/today/[your_key]")
+                data = req.json()
+                data = data[0]
+                qoute = data["q"]
+                author = data["a"]
+
+
+                w = open('qoute.txt', 'w')
+                w.write(qoute + "\n")
+                w.write(author + "\n")
+                w.write(str(curr_date))
+                w.close()
+                return jsonify({"qoute":qoute,  "author" : author})
+
+        except Exception as e:
+            print(e)
+    else:
+        return jsonify({"qoute": content[0], "author" : content[1]})
 
 @app.route('/api/earning_report', methods=['POST'])
 def earning_report():
@@ -372,8 +366,8 @@ def earning_report():
         results = session.query(Transaction).filter_by(userid=userid_key).all()
 
     except Exception as e:
-        return "no data", 400
-    print(results)
+        print("Error:", e)
+        return jsonify({"error": str(e)}), 500
     data = [r.__dict__ for r in results]
     for row in data:
         row.pop('_sa_instance_state', None)
@@ -402,7 +396,6 @@ def recent_transactions():
 
     except Exception as e:
         return "no data", 400
-    print(results)
     data = [r.__dict__ for r in results]
     for row in data:
         row.pop('_sa_instance_state', None)
@@ -413,7 +406,6 @@ def recent_transactions():
     recent_data = data.head(10)
 
     return jsonify(recent_data.to_dict(orient='records'))
-
 
 
 

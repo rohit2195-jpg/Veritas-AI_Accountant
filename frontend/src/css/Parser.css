@@ -5,6 +5,9 @@
     padding: 2rem;
     background-color: #fdfdfd;
     border-radius: 1rem;
+    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+    grid-template-rows: 10rem 10rem 35rem 15rem;
+    align-items: center;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
     font-family: 'Inter', sans-serif;
     display: flex;
@@ -17,17 +20,31 @@
     color: #2e3a59;
     margin-bottom: 0rem;
 }
+.step2 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 15rem;
+    gap: 1.5rem;
+    padding: 2rem;
+    background-color: #f4f6fa;
+    font-family: 'Inter', sans-serif;
+    grid-auto-flow: dense;
+}
 
 .container input[type="text"],
 .container textarea {
-    width: 100%;
+    width: 50%;
     padding: 0.75rem 1rem;
     margin-top: 0.5rem;
     margin-bottom: 1rem;
     border: 1px solid #ccc;
     border-radius: 0.75rem;
-    font-size: 1rem;
     transition: border 0.2s ease;
+}
+.step3-category {
+    display: flex;
+    flex-direction: column;
+
 }
 
 

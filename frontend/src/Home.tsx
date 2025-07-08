@@ -178,7 +178,7 @@ function Home() {
         }
     }
 
-    if (!graphs || !timeGraph || !inoutgraph) return <p>Loading chart...</p>;
+    if (!graphs || !timeGraph || !inoutgraph) return <p>There is no available data yet. Upload your financial transaction info to the Parser tab to see your statistics.</p>;
 
 
     return (

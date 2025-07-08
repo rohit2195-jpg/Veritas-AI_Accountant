@@ -13,26 +13,74 @@ import './css/Transaction.css';
 function Data() {
     const [categories, setCategories] = useState<Transaction[]>([]);
 
-    useEffect(() => {
-        async function getCategories() {
-            const formData = new FormData();
-            formData.append("userid", "11");
 
-            try {
-                const response = await axios.post('http://127.0.0.1:5000/view_transactions', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    }
-                });
-                console.log('Upload successful:', response.data);
-                setCategories(response.data); // Save data to state
-            } catch (error) {
-                console.error('Upload failed:', error);
-            }
+    async function getCategories() {
+        const formData = new FormData();
+        formData.append("userid", "11");
+
+        try {
+            const response = await axios.post('http://127.0.0.1:5000/view_transactions', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
+            console.log('Upload successful:', response.data);
+            setCategories(response.data); // Save data to state
+        } catch (error) {
+            console.error('Upload failed:', error);
         }
+    }
+    useEffect(() => {
+
 
         getCategories();
     }, []); // Empty dependency array = run once on mount
+
+    async function clearData() {
+        const formData = new FormData();
+        formData.append("userid", "11");
+
+        try {
+            const response = await axios.post('http://127.0.0.1:5000/api/clear_transactions', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
+            console.log('Upload successful:', response.data);
+            getCategories();
+
+        } catch (error) {
+            console.error('Upload failed:', error);
+        }
+    }
+    async function downloadData() {
+        const formData = new FormData();
+        formData.append("userid", "11");
+
+        try {
+            const response = await axios.post(
+                'http://127.0.0.1:5000/api/download_transactions',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    responseType: 'blob', // Important: tells axios to expect binary data
+                }
+            );
+            console.log('Upload successful:', response.data);
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'transactions.csv'); // Filename
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+        } catch (error) {
+            console.error('Upload failed:', error);
+        }
+    }
 
     return (
         <div className={"container"}>
@@ -61,6 +109,9 @@ function Data() {
                 ))}
                 </tbody>
             </table>
+
+            <button onClick={downloadData}> Download Transaction csv</button>
+            <button onClick={clearData}>Clear All Data</button>
         </div>
     );
 }

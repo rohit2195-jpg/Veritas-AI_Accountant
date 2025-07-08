@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, send_file
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
@@ -13,12 +13,13 @@ from dotenv import load_dotenv
 from sqlalchemy.dialects.postgresql import JSON
 import calendar
 from chatbot import ask_chatbot
+import io
 
 
 
 
 load_dotenv()
-userid = 11
+userid = 12
 userid_key = userid
 
 app = Flask(__name__)
@@ -407,13 +408,59 @@ def recent_transactions():
 
     data["date"] = pd.to_datetime(data["date"])
     data.sort_values("date", inplace=True)
-    recent_data = data.head(10)
+    recent_data = data.tail(10)
 
+    db.session.remove()
 
     return jsonify(recent_data.to_dict(orient='records'))
 
 
 
+@app.route('/api/clear_transactions', methods=['POST'])
+def clear_transactions():
+    engine = db.engine
+    try:
+        transactions = db.session.query(Transaction).filter_by(userid=userid_key).all()
+
+        for t in transactions:
+            db.session.delete(t)
+    except Exception as e:
+        db.session.remove()
+        print("Error:", e)
+        return jsonify({"error": str(e)}), 500
+    db.session.commit()
+    db.session.remove()
+    return jsonify({})
+
+@app.route('/api/download_transactions', methods=['POST'])
+def download_transactions():
+    engine = db.engine
+    try:
+        results = db.session.query(Transaction).filter_by(userid=userid_key).all()
+        data = [r.__dict__ for r in results]
+        for row in data:
+            row.pop('_sa_instance_state', None)
+        data = pd.DataFrame(data)
+        data = data[['date', 'description', 'amount', 'type']]
+        data.to_csv("transactions.csv", index=False)
+
+        buffer = io.StringIO()
+        data.to_csv(buffer, index=False)
+        buffer.seek(0)
+        return send_file(
+            io.BytesIO(buffer.getvalue().encode()),
+            mimetype='text/csv',
+            as_attachment=True,
+            download_name='transactions.csv'
+        )
+
+
+    except Exception as e:
+        db.session.remove()
+        print("Error:", e)
+        return jsonify({"error": str(e)}), 500
+    finally:
+        db.session.remove()
 
 
 

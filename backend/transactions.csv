@@ -1,0 +1,12 @@
+date,description,amount,type
+2024-12-31,Salary Payment,3250.0,credit
+2025-01-02,Grocery Shopping,-154.78,debit
+2025-01-03,Starbucks Coffee,-8.45,debit
+2025-01-05,Freelance Income,450.0,credit
+2025-01-07,Spotify Subscription,-10.99,debit
+2025-01-08,Amazon Purchase,-89.2,debit
+2025-01-10,Gas Station,-47.6,debit
+2025-01-12,Uber Ride,-15.3,debit
+2025-01-13,Stock Dividend,120.0,credit
+2025-01-15,Rent Payment,-1300.0,debit
+2025-01-17,Medical Bill,-220.4,debit

@@ -4,19 +4,19 @@ import Parser from './Parser';
 import Data from './Data';
 import Assistant from './Assistant';
 import './css/App.css';
+import Login from './Login';
 
 function App() {
+
     return (
         <Router>
             <div className="App">
 
 
-                {/* Navigation Links */}
                 <nav className="nav">
                     <Link to="/">Home</Link>  <Link to="/parser">Parser</Link> <Link to="/data">Data</Link> <Link to ="/assistant">AI Assistant</Link>
                 </nav>
 
-                {/* Route Definitions */}
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/parser" element={<Parser />} />
@@ -26,6 +26,15 @@ function App() {
             </div>
         </Router>
     );
+
+    /*
+    return (<div>
+        <Login />
+    </div>)
+    */
+
+
+
 }
 
 export default App;

@@ -1,54 +1,12 @@
 date,description,amount,type,category,userid
-2025-04-01,Salary Payment,3250.0,credit,Salary,11
-2025-04-03,Grocery - Whole Foods,-134.65,debit,Food,11
-2025-04-04,Pet Supplies - PetSmart,-76.29,debit,Shopping,11
-2025-04-06,Flight to Chicago,-245.6,debit,Transportation,11
-2025-04-07,ATM Withdrawal,-100.0,debit,Other,11
-2025-04-08,Coffee - Local Cafe,-4.85,debit,Food,11
-2025-04-10,Freelance Project (Design),800.0,credit,Salary,11
-2025-04-11,Hotel - Chicago Stay,-310.2,debit,Transportation,11
-2025-04-13,Train Ticket - Amtrak,-58.0,debit,Transportation,11
-2025-04-14,Mobile Bill - Verizon,-72.4,debit,Subscriptions,11
-2025-04-15,Rent Payment,-1300.0,debit,Other,11
-2025-04-17,Spotify Subscription,-10.99,debit,Subscriptions,11
-2025-04-18,Etsy Sale (Art Print),67.0,credit,Other,11
-2025-04-20,Brunch - The Green Egg,-28.9,debit,Food,11
-2025-04-22,Gas Station - Shell,-46.78,debit,Transportation,11
-2025-04-23,Pharmacy - CVS,-19.65,debit,Healthcare,11
-2025-04-26,Tax Refund,420.5,credit,Other,11
-2025-04-28,Movie Night - AMC,-32.0,debit,Entertainment,11
-2025-05-01,Salary Payment,3250.0,credit,Salary,11
-2025-05-02,Grocery - Trader Joe's,-119.25,debit,Food,11
-2025-05-03,Vet Appointment,-95.0,debit,Healthcare,11
-2025-05-05,Parking Fine,-55.0,debit,Transportation,11
-2025-05-07,Gift for Mom - Etsy,-43.8,debit,Gifts,11
-2025-05-08,Coffee - Starbucks,-6.15,debit,Food,11
-2025-05-09,Freelance Work - Blog Writing,400.0,credit,Salary,11
-2025-05-11,Concert Tickets,-88.0,debit,Entertainment,11
-2025-05-13,Electric Bill - City Utilities,-102.45,debit,Other,11
-2025-05-15,Rent Payment,-1300.0,debit,Other,11
-2025-05-17,Dog Walker Payment,-40.0,debit,Other,11
-2025-05-19,YouTube Premium,-11.99,debit,Subscriptions,11
-2025-05-21,Bar Night - Craft Pub,-37.6,debit,Entertainment,11
-2025-05-24,PayPal Refund,15.0,credit,Other,11
-2025-05-25,Thrift Store - Goodwill,-22.4,debit,Shopping,11
-2025-05-27,Interest Earned,3.75,credit,Other,11
-2025-05-29,Bike Repair Shop,-49.9,debit,Transportation,11
-2025-06-01,Salary Payment,3250.0,credit,Salary,11
-2025-06-02,Farmer's Market,-44.2,debit,Food,11
-2025-06-03,Water Bill,-36.8,debit,Other,11
-2025-06-04,Streaming Service - Max,-14.99,debit,Subscriptions,11
-2025-06-05,Lunch - Sandwich Deli,-12.65,debit,Food,11
-2025-06-07,Freelance - Photography Gig,600.0,credit,Salary,11
-2025-06-09,Online Course - Udemy,-19.99,debit,Education,11
-2025-06-11,Gas Station - Exxon,-48.3,debit,Transportation,11
-2025-06-13,Stock Dividend,72.0,credit,Investment,11
-2025-06-15,Rent Payment,-1300.0,debit,Other,11
-2025-06-17,Clothing - H&M,-85.45,debit,Shopping,11
-2025-06-18,ATM Fee,-3.0,debit,Financial Banking,11
-2025-06-20,Dinner - Italian Bistro,-57.1,debit,Food,11
-2025-06-22,Haircut - Salon Luxe,-33.0,debit,Personal Care,11
-2025-06-24,CashApp Transfer (Friend),-50.0,debit,Other,11
-2025-06-26,Refund - Cancelled Booking,120.0,credit,Other,11
-2025-06-28,Yoga Class Drop-in,-18.0,debit,Entertainment,11
-2025-06-30,Coffee - Local Roasters,-5.3,debit,Food,11
+2024-12-31,Salary Payment,3250.0,credit,Food,12
+2025-01-02,Grocery Shopping,-154.78,debit,Food,12
+2025-01-03,Starbucks Coffee,-8.45,debit,Food,12
+2025-01-05,Freelance Income,450.0,credit,Food,12
+2025-01-07,Spotify Subscription,-10.99,debit,Entertainment,12
+2025-01-08,Amazon Purchase,-89.2,debit,Food,12
+2025-01-10,Gas Station,-47.6,debit,Food,12
+2025-01-12,Uber Ride,-15.3,debit,Entertainment,12
+2025-01-13,Stock Dividend,120.0,credit,Food,12
+2025-01-15,Rent Payment,-1300.0,debit,Food,12
+2025-01-17,Medical Bill,-220.4,debit,Food,12

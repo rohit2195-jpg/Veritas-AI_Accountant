@@ -10,6 +10,11 @@ interface Category {
     notes: string;
 }
 
+import { initializeApp } from "firebase/app";
+import {getAuth} from "firebase/auth";
+
+
+
 type UploadStatus  = "idle" | "uploading" | "success" | "error";
 const Parser: React.FC = () => {
     const [categories, setCategories] = useState<Category[]>([
@@ -20,14 +25,32 @@ const Parser: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [progress, setProgress] = useState(0);
 
+    const firebaseConfig = {
+        apiKey: "AIzaSyCkuBOBiRyBJFWMXWK0GqYwcVGIweE0JwQ",
+        authDomain: "veritas-ai-accountant.firebaseapp.com",
+        projectId: "veritas-ai-accountant",
+        storageBucket: "veritas-ai-accountant.firebasestorage.app",
+        messagingSenderId: "556788428259",
+        appId: "1:556788428259:web:b14bfb2ccd71fb6fea44d6",
+        measurementId: "G-MF0LJS5PFM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
+
+
     async function getCategories() {
         const formData = new FormData();
         formData.append("userid", "11");
 
         try {
+            const token = await auth.currentUser?.getIdToken(true)
+
             const response = await axios.post('http://127.0.0.1:5000/load_categories', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
             console.log('Upload successful:', response.data);
@@ -47,11 +70,14 @@ const Parser: React.FC = () => {
         const formData = new FormData();
         formData.append("filename", file);
         formData.append('categories', JSON.stringify(categories));
+        const token = await auth.currentUser?.getIdToken(true)
+
 
         try {
             const response = await axios.post('http://127.0.0.1:5000/uploadcsv', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 },
                 onUploadProgress: progressEvent => {
                     let progress = 0;

@@ -32,6 +32,8 @@ interface Transaction {
 import {Bar, Pie, Line} from "react-chartjs-2";
 
 import './css/Home.css';
+import {initializeApp} from "firebase/app";
+import {getAuth} from "firebase/auth";
 
 
 
@@ -50,6 +52,19 @@ function Home() {
         spending: null,
         net: null
     });
+    const firebaseConfig = {
+        apiKey: "AIzaSyCkuBOBiRyBJFWMXWK0GqYwcVGIweE0JwQ",
+        authDomain: "veritas-ai-accountant.firebaseapp.com",
+        projectId: "veritas-ai-accountant",
+        storageBucket: "veritas-ai-accountant.firebasestorage.app",
+        messagingSenderId: "556788428259",
+        appId: "1:556788428259:web:b14bfb2ccd71fb6fea44d6",
+        measurementId: "G-MF0LJS5PFM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -73,11 +88,14 @@ function Home() {
     async function getTransactionView() {
         const formData = new FormData();
         formData.append("userid", "11");
+        const token = await auth.currentUser?.getIdToken(true)
+
 
         try {
             const response = await axios.post('http://127.0.0.1:5000/api/recent_transactions', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
             console.log('Upload successful:', response.data);
@@ -91,11 +109,15 @@ function Home() {
     async function getEarningReport() {
         const formData = new FormData();
         formData.append("userid", "11");
+        const token = await auth.currentUser?.getIdToken(true)
+
+
 
         try {
             const response = await axios.post('http://127.0.0.1:5000/api/earning_report', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
             setReport({
@@ -112,11 +134,13 @@ function Home() {
     async function getQoute() {
         const formData = new FormData();
         formData.append("userid", "11");
+        const token = await auth.currentUser?.getIdToken(true)
 
         try {
             const response = await axios.post('http://127.0.0.1:5000/api/daily_qoute', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
             console.log("Category data:", response.data);
@@ -131,11 +155,13 @@ function Home() {
     async function getCategories() {
         const formData = new FormData();
         formData.append("userid", "11");
+        const token = await auth.currentUser?.getIdToken(true)
 
         try {
             const response = await axios.post('http://127.0.0.1:5000/api/expensesby-category', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
             console.log("Category data:", response.data);
@@ -148,11 +174,14 @@ function Home() {
     async function getTimeGraphs() {
         const formData = new FormData();
         formData.append("userid", "11");
+        const token = await auth.currentUser?.getIdToken(true)
+
 
         try {
             const response = await axios.post('http://127.0.0.1:5000/api/timegraphs', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
             console.log("Time graph data:", response.data);
@@ -164,11 +193,15 @@ function Home() {
     async function getinoutgraph() {
         const formData = new FormData();
         formData.append("userid", "11");
+        const token = await auth.currentUser?.getIdToken(true)
+
+
 
         try {
             const response = await axios.post('http://127.0.0.1:5000/api/inoutgraph', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
             console.log("Time graph data:", response.data);

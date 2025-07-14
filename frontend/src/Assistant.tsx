@@ -3,6 +3,8 @@ import './Assistant.css'
 import {useState} from 'react'
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
+import {initializeApp} from "firebase/app";
+import {getAuth} from "firebase/auth";
 
 type Message = {
     message: string,
@@ -20,6 +22,22 @@ function Assistant() {
         },
 
     ]);
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCkuBOBiRyBJFWMXWK0GqYwcVGIweE0JwQ",
+        authDomain: "veritas-ai-accountant.firebaseapp.com",
+        projectId: "veritas-ai-accountant",
+        storageBucket: "veritas-ai-accountant.firebasestorage.app",
+        messagingSenderId: "556788428259",
+        appId: "1:556788428259:web:b14bfb2ccd71fb6fea44d6",
+        measurementId: "G-MF0LJS5PFM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
+
+
     const newMessage: React.FormEventHandler = async (event) => {
         event.preventDefault();
         setNewInput("");
@@ -42,11 +60,14 @@ function Assistant() {
         const formData = new FormData();
         formData.append("userid", "11");
         formData.append("message", newInput);
+        const token = await auth.currentUser?.getIdToken(true)
+
 
         try {
             const response = await axios.post('http://127.0.0.1:5000/ask_question', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
             console.log("Category data:", response.data);

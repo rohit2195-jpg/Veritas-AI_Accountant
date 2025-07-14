@@ -14,13 +14,13 @@ from sqlalchemy.dialects.postgresql import JSON
 import calendar
 from chatbot import ask_chatbot
 import io
-
-
-
+from firebase_admin import auth as firebase_auth
+import firebase_admin
+from firebase_admin import credentials
+from functools import wraps
 
 load_dotenv()
-userid = 12
-userid_key = userid
+
 
 app = Flask(__name__)
 CORS(app, support_credentials=True)
@@ -40,6 +40,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
 )
 db = SQLAlchemy(app)
 
+
+cred = credentials.Certificate("veritas-ai-accountant-firebase-adminsdk-fbsvc-92ad95b9f2.json")
+defualt_app = firebase_admin.initialize_app(cred)
+
+
 UPLOAD_FOLDER = './uploads'
 ALLOWED_EXTENSIONS = set(['csv'])
 
@@ -49,25 +54,45 @@ def allowed_file(filename):
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 class Preferences(db.Model):
-    userid = db.Column(db.Integer, primary_key=True)
+    userid = db.Column(db.String(48), primary_key=True)
     categories = db.Column(JSON)
 
 class Transaction(db.Model):
     __tablename__ = 'transaction'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
-    userid = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    userid = db.Column(db.String(48), nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     description = db.Column(db.String(200), nullable=False)
     amount = db.Column(db.Float, nullable=False)
     type = db.Column(db.String(10), nullable=False)
     category = db.Column(db.String(100), nullable=False)
 
+def verify_firebase_token(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        auth_header = request.headers.get('Authorization')
+        if not auth_header or not auth_header.startswith("Bearer "):
+            return jsonify({"error": "Missing or invalid Authorization header"}), 401
+
+        id_token = auth_header.split("Bearer ")[1]
+        try:
+            decoded_token = firebase_auth.verify_id_token(id_token)
+            firebase_uid = decoded_token['uid']
+            request.firebase_uid = firebase_uid
+        except Exception as e:
+            return jsonify({"error": "Invalid token", "details": str(e)}), 403
+
+        return f(*args, **kwargs)
+    return decorated_function
+
 @app.route('/load_categories', methods=['POST'])
+@verify_firebase_token
 def load_categories():
     engine = db.engine
 
     try:
-        pref = db.session.get(Preferences, userid_key)
+        uid = request.firebase_uid
+        pref = db.session.get(Preferences, uid)
     except Exception as e:
         print("Error:", e)
         return jsonify({"error": str(e)}), 500
@@ -76,8 +101,11 @@ def load_categories():
     return pref.categories
 
 @app.route('/uploadcsv', methods=['POST'])
+@verify_firebase_token
 def upload_csv():
     engine = db.engine
+    userid = request.firebase_uid
+    userid_key = userid
 
     if 'filename' not in request.files:
         return "error", 400
@@ -90,6 +118,8 @@ def upload_csv():
     filename = secure_filename(file.filename)
     file_path = os.path.join(".", "uploads", filename)
     file.save(file_path)
+    with app.app_context():
+        db.create_all()
 
     try:
         standard_columns = ['date', 'description', 'amount', 'balance']
@@ -161,8 +191,11 @@ def upload_csv():
         return jsonify({'filename': filename}), 200
 
 @app.route('/view_transactions', methods=['POST'])
+@verify_firebase_token
 def hello():
     engine = db.engine
+    userid = request.firebase_uid
+    userid_key = userid
 
     try:
         results = db.session.query(Transaction).filter_by(userid=userid_key).all()
@@ -180,8 +213,11 @@ def hello():
 
 #Dashboard charts
 @app.route('/api/expensesby-category', methods=['POST'])
+@verify_firebase_token
 def expenses_by_category():
     engine = db.engine
+    userid = request.firebase_uid
+    userid_key = userid
 
     try:
         results = db.session.query(Transaction).filter_by(userid=userid_key).all()
@@ -212,8 +248,11 @@ def expenses_by_category():
     })
 
 @app.route('/api/timegraphs', methods=['POST'])
+@verify_firebase_token
 def time_graphs():
     engine = db.engine
+    userid = request.firebase_uid
+    userid_key = userid
 
     try:
         results = db.session.query(Transaction).filter_by(userid=userid_key).all()
@@ -261,8 +300,11 @@ def time_graphs():
 
 
 @app.route('/api/inoutgraph', methods=['POST'])
+@verify_firebase_token
 def in_out_graphs():
     engine = db.engine
+    userid = request.firebase_uid
+    userid_key = userid
 
     try:
         results = db.session.query(Transaction).filter_by(userid=userid_key).all()
@@ -306,8 +348,11 @@ def in_out_graphs():
     })
 
 @app.route('/ask_question', methods=['POST'])
+@verify_firebase_token
 def chatbot():
     user_query = request.form['message']
+    userid = request.firebase_uid
+    userid_key = userid
     with app.app_context():
         engine = db.engine
 
@@ -326,7 +371,10 @@ def chatbot():
     return response
 
 @app.route('/api/daily_qoute', methods=['POST'])
+@verify_firebase_token
 def getQoute():
+    userid = request.firebase_uid
+    userid_key = userid
     file = open('qoute.txt', 'r')
     content = file.readlines()
     for i in range(len(content)):
@@ -364,7 +412,10 @@ def getQoute():
 
 
 @app.route('/api/earning_report', methods=['POST'])
+@verify_firebase_token
 def earning_report():
+    userid = request.firebase_uid
+    userid_key = userid
     engine = db.engine
 
     try:
@@ -393,8 +444,11 @@ def earning_report():
     return jsonify({"earning": earning, "spending": spending, "net": net})
 
 @app.route('/api/recent_transactions', methods=['POST'])
+@verify_firebase_token
 def recent_transactions():
     engine = db.engine
+    userid = request.firebase_uid
+    userid_key = userid
 
     try:
         results = db.session.query(Transaction).filter_by(userid=userid_key).all()
@@ -417,8 +471,11 @@ def recent_transactions():
 
 
 @app.route('/api/clear_transactions', methods=['POST'])
+@verify_firebase_token
 def clear_transactions():
     engine = db.engine
+    userid = request.firebase_uid
+    userid_key = userid
     try:
         transactions = db.session.query(Transaction).filter_by(userid=userid_key).all()
 
@@ -433,8 +490,12 @@ def clear_transactions():
     return jsonify({})
 
 @app.route('/api/download_transactions', methods=['POST'])
+@verify_firebase_token
 def download_transactions():
     engine = db.engine
+
+    userid = request.firebase_uid
+    userid_key = userid
     try:
         results = db.session.query(Transaction).filter_by(userid=userid_key).all()
         data = [r.__dict__ for r in results]

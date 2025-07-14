@@ -29,7 +29,7 @@ def standardize_csv(csv_sample_data: pd.DataFrame, categories):
         amount: float
         type: Literal["credit", "debit"]
         category: str
-        userid: int
+        userid: str
 
     class StandardizedCSV(BaseModel):
         transactions: List[TransactionRecord]
@@ -122,7 +122,7 @@ def standardize_csv2(csv_sample_data: pd.DataFrame, categories):
         amount: float
         type: Literal["credit", "debit"]
         category: str
-        userid: int
+        userid: str
         id: int
 
     class StandardizedCSV(BaseModel):

@@ -1,40 +1,51 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link , useLocation} from 'react-router-dom';
 import Home from './Home';
 import Parser from './Parser';
 import Data from './Data';
 import Assistant from './Assistant';
 import './css/App.css';
 import Login from './Login';
+import Signup from "./Signup.tsx";
+import ProtectedRoute from "../ProtectedRoute.tsx";
 
-function App() {
+
+function AppContent() {
+    const location = useLocation();
+
+    // Hide navbar on login and signup pages
+    const hideNavbar = location.pathname === '/' || location.pathname === '/signup';
+
+
 
     return (
-        <Router>
-            <div className="App">
-
-
+        <div className="App">
+            {!hideNavbar && (
                 <nav className="nav">
-                    <Link to="/">Home</Link>  <Link to="/parser">Parser</Link> <Link to="/data">Data</Link> <Link to ="/assistant">AI Assistant</Link>
+                    <Link to="/home">Home</Link>
+                    <Link to="/parser">Parser</Link>
+                    <Link to="/data">Data</Link>
+                    <Link to="/assistant">AI Assistant</Link>
                 </nav>
+            )}
 
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/parser" element={<Parser />} />
-                    <Route path="/data" element={<Data/>}/>
-                    <Route path = "/assistant" element={<Assistant/>}/>
-                </Routes>
-            </div>
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/home" element={<ProtectedRoute> <Home /> </ProtectedRoute>} />
+                <Route path="/parser" element={<ProtectedRoute> <Parser /> </ProtectedRoute>} />
+                <Route path="/data" element={<ProtectedRoute> <Data /> </ProtectedRoute>} />
+                <Route path="/assistant" element={<ProtectedRoute> <Assistant /> </ProtectedRoute>} />
+            </Routes>
+        </div>
+    );
+}
+
+function App() {
+    return (
+        <Router>
+            <AppContent />
         </Router>
     );
-
-    /*
-    return (<div>
-        <Login />
-    </div>)
-    */
-
-
-
 }
 
 export default App;

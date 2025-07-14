@@ -1,11 +1,12 @@
 // ProtectedRoute.jsx
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
+import type { User } from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
 import {initializeApp} from "firebase/app";
 
 function ProtectedRoute({ children }: any) {
-    const [user, setUser] = useState(undefined);
+    const [user, setUser] = useState<User | null>(null);
     const navigate = useNavigate();
     const firebaseConfig = {
         apiKey: "AIzaSyCkuBOBiRyBJFWMXWK0GqYwcVGIweE0JwQ",

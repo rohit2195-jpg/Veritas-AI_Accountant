@@ -42,7 +42,7 @@ function Login() {
     const navigate = useNavigate();
 
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event:any) => {
         event.preventDefault();
         setError('');
 

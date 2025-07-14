@@ -29,7 +29,7 @@ interface Transaction {
     type: string;
     category: string;
 }
-import {Bar, Pie, Line} from "react-chartjs-2";
+import {Bar, Pie} from "react-chartjs-2";
 
 import './css/Home.css';
 import {initializeApp} from "firebase/app";

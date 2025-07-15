@@ -6,7 +6,7 @@ import {firebaseConfig} from "./firebase-config.ts";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import {getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -49,6 +49,15 @@ function Login() {
 
         }
     };
+    const handleGoogleSignIn = async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+            await signInWithPopup(auth, provider);
+            navigate('/home');
+        } catch (error) {
+            console.error("Error signing in with Google:", error);
+        }
+    };
 
 
     return (
@@ -76,7 +85,10 @@ function Login() {
     </div>
     {error && <p >{error}</p>}
         <p>Not a user? <Link to="/signup">Sign up</Link></p>
-    <button type="submit" className={"btn-primary"}>
+
+        <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+
+        <button type="submit" className={"btn-primary"}>
         Login
         </button>
         </form>

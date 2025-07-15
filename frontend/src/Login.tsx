@@ -61,66 +61,111 @@ function Login() {
 
 
     return (
-        <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            outline: 'none',
-            marginLeft: '500px',
-            marginRight: '500px',
-            marginTop: '100px',
-            borderRadius: '10px',
-            backgroundColor: '#ffffff',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
-            padding: '40px',
-        }}>
-            <div>
-    <h2 style={{
-        textAlign: "center"
+        <div
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                margin: '100px auto',
+                maxWidth: '400px',
+                borderRadius: '16px',
+                backgroundColor: '#ffffff',
+                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
+                padding: '40px',
+                fontFamily: 'Segoe UI, sans-serif',
+            }}
+        >
+            <h2 style={{ textAlign: 'center', marginBottom: '24px' }}>Log in</h2>
 
-    }} >Login</h2>
-    <form style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    }}onSubmit={handleSubmit}>
-    <div>
-    <label htmlFor="email" >Email:</label> <br/>
-    <input
-    type="email"
-    id="email"
-    value={email}
-    onChange={(e) => setEmail(e.target.value)}
+            <form
+                onSubmit={handleSubmit}
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '100%',
+                    gap: '16px',
+                }}
+            >
+                <div>
+                    <label htmlFor="email" style={{ fontWeight: 500 }}>
+                        Email:
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        style={{
+                            width: '100%',
+                            padding: '10px',
+                            borderRadius: '8px',
+                            border: '1px solid #ccc',
+                            marginTop: '4px',
+                        }}
+                    />
+                </div>
 
-    required
-    />
-    <label htmlFor="password" style={{ display: 'block' }}>Password:</label>
-    <input
-    type="password"
-    id="password"
-    value={password}
-    onChange={(e) => setPassword(e.target.value)}
-    required
-    />
-    </div>
-    {error && <p >{error}</p>}
-        <p>Not a user? <Link to="/signup">Sign up</Link></p>
+                <div>
+                    <label htmlFor="password" style={{ fontWeight: 500 }}>
+                        Password:
+                    </label>
+                    <input
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        style={{
+                            width: '100%',
+                            padding: '10px',
+                            borderRadius: '8px',
+                            border: '1px solid #ccc',
+                            marginTop: '4px',
+                        }}
+                    />
+                </div>
 
-        <button onClick={handleGoogleSignIn} style={{marginBottom: "10px", padding:"7px",
-            backgroundColor: "#4285F4",
-            color: "white",
-            borderRadius: "10px" }}>Sign in with Google</button>
+                {error && (
+                    <p style={{ color: 'red', fontSize: '14px', marginTop: '-8px' }}>{error}</p>
+                )}
 
-        <button type="submit" style={{padding: "20px", borderRadius: "10px",
-        backgroundColor: "#d9534f",
-            color: "white",
-            fontSize: "20px",
-        }}className={"btn-primary"}>
-        Login
-        </button>
-        </form>
-        </div>
+                <p style={{ textAlign: 'center', fontSize: '14px' }}>
+                    Not a user? <Link to="/signup">Sign up</Link>
+                </p>
 
+                <button
+                    type="button"
+                    onClick={handleGoogleSignIn}
+                    style={{
+                        padding: '10px',
+                        backgroundColor: '#4285F4',
+                        color: 'white',
+                        borderRadius: '8px',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontWeight: 600,
+                    }}
+                >
+                    Sign in with Google
+                </button>
+
+                <button
+                    type="submit"
+                    style={{
+                        padding: '12px',
+                        borderRadius: '8px',
+                        backgroundColor: '#d9534f',
+                        color: 'white',
+                        fontSize: '16px',
+                        fontWeight: 600,
+                        border: 'none',
+                        cursor: 'pointer',
+                    }}
+                >
+                    Login
+                </button>
+            </form>
         </div>
     );
 }

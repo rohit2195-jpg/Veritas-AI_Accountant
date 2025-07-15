@@ -125,6 +125,31 @@ const Parser: React.FC = () => {
 
     return (
         <div className="container">
+            <div className="step0">
+                <h2>0. Verify your csv is correctly formatted</h2>
+                <p> The CSV should have 4 columns, <br/>
+                    date / Y-m-d, <br/>
+                    description / small description about the transaction, <br/>
+                    amount / negative for money going out, postive for money coming in ,<br/>
+                    type / credit-money received, debit-money payed,<br/>
+                    <br/>
+                    Example:
+                </p>
+
+                <pre style={{ background: '#f5f5f5', padding: '1rem', borderRadius: '15px' }}>
+                    date,description,amount,type <br/>
+                    2024-12-31,Salary Payment,3250.00,credit <br/>
+                    2025-01-02,Grocery Shopping,-154.78,debit <br/>
+                    2025-01-03,Starbucks Coffee,-8.45,debit <br/>
+                    2025-01-05,Freelance Income,450.00,credit <br/>
+                    2025-01-07,Spotify Subscription,-10.99,debit <br/>
+                    2025-01-08,Amazon Purchase,-89.20,debit <br/>
+                    2025-01-10,Gas Station,-47.60,debit <br/>
+                </pre>
+
+
+
+            </div>
             <div className="step1">
                 <h2>1. Upload financial transaction history</h2>
                 <Uploader file={file} setFile={setFile} />
@@ -165,8 +190,8 @@ const Parser: React.FC = () => {
             ))}
             </div>
 
-            {status === "uploading" && <p>{progress}</p>}
-            {status === "success" && <p>file uplaoded</p>}
+            {status === "uploading" && <p>File is still being processed. Please stay on this page until finished</p>}
+            {status === "success" && <p>Finished! File is processed</p>}
             <h2>3. Upload!</h2>
             {file && status !== "uploading" && <button className={"upload"} onClick={handleUpload}>Upload</button>}
         </div>

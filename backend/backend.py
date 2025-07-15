@@ -76,10 +76,11 @@ def verify_firebase_token(f):
 
         id_token = auth_header.split("Bearer ")[1]
         try:
-            decoded_token = firebase_auth.verify_id_token(id_token)
+            decoded_token = firebase_auth.verify_id_token(id_token, clock_skew_seconds=30)
             firebase_uid = decoded_token['uid']
             request.firebase_uid = firebase_uid
         except Exception as e:
+            print("invalid token details:", str(e))
             return jsonify({"error": "Invalid token", "details": str(e)}), 403
 
         return f(*args, **kwargs)

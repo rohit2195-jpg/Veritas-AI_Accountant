@@ -32,6 +32,7 @@ In the future, I'd like to add the ability to...
 - Generate downloadable PDF reports 
 - Performance improvements and bug fixes
 - Public hosting and deployment
+- Add Login with Google, Facebook, Github
 
 ---
 

@@ -87,7 +87,7 @@ function Login() {
     </div>
     {error && <p >{error}</p>}
         <p>Not a user? <Link to="/signup">Sign up</Link></p>
-    <button type="submit" className={"btn-primary"}>Login
+    <button type="submit" className={"btn-primary"}>
         Login
         </button>
         </form>

@@ -23,6 +23,7 @@ const Parser: React.FC = () => {
     ]);
     const [status, setStatus] = useState<UploadStatus>("idle");
     const [file, setFile] = useState<File | null>(null);
+    // @ts-ignore
     const [progress, setProgress] = useState(0);
 
     const firebaseConfig = {

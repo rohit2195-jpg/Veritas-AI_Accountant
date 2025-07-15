@@ -4,7 +4,7 @@ import {Link, useNavigate} from "react-router-dom";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {getAuth, createUserWithEmailAndPassword} from "firebase/auth";
+import {getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
 import {firebaseConfig} from "./firebase-config.ts";
 
 
@@ -60,37 +60,78 @@ function Signup() {
             });
 
     };
+    const handleGoogleSignIn = async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+            await signInWithPopup(auth, provider);
+            navigate('/home');
+        } catch (error) {
+            console.error("Error signing in with Google:", error);
+        }
+    };
 
 
     return (
-        <div className="login">
-            <h2>Sign up</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="email" >Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            outline: 'none',
+            marginLeft: '500px',
+            marginRight: '500px',
+            marginTop: '100px',
+            borderRadius: '10px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+            padding: '40px',
+        }}>
+            <div>
+                <h2 style={{
+                    textAlign: "center"
 
-                        required
-                    />
-                    <label htmlFor="password" style={{ display: 'block', marginBottom: '5px' }}>Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                {error && <p >{error}</p>}
-                <p>Existing user? <Link to="/">Log in</Link></p>
-                <button type="submit" className={"btn-primary"}>
-                    Login
-                </button>
-            </form>
+                }} >Sign Up</h2>
+                <form style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}onSubmit={handleSubmit}>
+                    <div>
+                        <label htmlFor="email" >Email:</label> <br/>
+                        <input
+                            type="email"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+
+                            required
+                        />
+                        <label htmlFor="password" style={{ display: 'block' }}>Password:</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    {error && <p >{error}</p>}
+                    <p>Existing user? <Link to="/">Login</Link></p>
+
+                    <button onClick={handleGoogleSignIn} style={{marginBottom: "10px", padding:"7px",
+                        backgroundColor: "#4285F4",
+                        color: "white",
+                        borderRadius: "10px" }}>Sign in with Google</button>
+
+                    <button type="submit" style={{padding: "20px", borderRadius: "10px",
+                        backgroundColor: "#d9534f",
+                        color: "white",
+                        fontSize: "20px",
+                    }}className={"btn-primary"}>
+                        Sign Up
+                    </button>
+                </form>
+            </div>
+
         </div>
     );
 }

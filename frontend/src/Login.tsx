@@ -61,11 +61,31 @@ function Login() {
 
 
     return (
-        <div>
-    <h2>Login</h2>
-    <form onSubmit={handleSubmit}>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            outline: 'none',
+            marginLeft: '500px',
+            marginRight: '500px',
+            marginTop: '100px',
+            borderRadius: '10px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+            padding: '40px',
+        }}>
+            <div>
+    <h2 style={{
+        textAlign: "center"
+
+    }} >Login</h2>
+    <form style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    }}onSubmit={handleSubmit}>
     <div>
-    <label htmlFor="email" >Email:</label>
+    <label htmlFor="email" >Email:</label> <br/>
     <input
     type="email"
     id="email"
@@ -74,7 +94,7 @@ function Login() {
 
     required
     />
-    <label htmlFor="password" style={{ display: 'block', marginBottom: '5px' }}>Password:</label>
+    <label htmlFor="password" style={{ display: 'block' }}>Password:</label>
     <input
     type="password"
     id="password"
@@ -86,12 +106,21 @@ function Login() {
     {error && <p >{error}</p>}
         <p>Not a user? <Link to="/signup">Sign up</Link></p>
 
-        <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+        <button onClick={handleGoogleSignIn} style={{marginBottom: "10px", padding:"7px",
+            backgroundColor: "#4285F4",
+            color: "white",
+            borderRadius: "10px" }}>Sign in with Google</button>
 
-        <button type="submit" className={"btn-primary"}>
+        <button type="submit" style={{padding: "20px", borderRadius: "10px",
+        backgroundColor: "#d9534f",
+            color: "white",
+            fontSize: "20px",
+        }}className={"btn-primary"}>
         Login
         </button>
         </form>
+        </div>
+
         </div>
     );
 }

@@ -72,9 +72,11 @@ cd Veritas-AI_Accountant
 
    - Setup a new project, generate the service account keys, and downlaod the json file.
 
-   - Copy the contents of the json and paste it into veritas-ai-accountant-firebase-adminsdk-fbsvc-92ad95b9f2-COPY.json
+   - In the backend, Copy the contents of the json and paste it into veritas-ai-accountant-firebase-adminsdk-fbsvc-92ad95b9f2-COPY.json
     
    - Rename the file to veritas-ai-accountant-firebase-adminsdk-fbsvc-92ad95b9f2.json
+   
+   - In the frontend, update firebase-config.ts with the Firebase configuration object/ SDK snipped provided by Firebase
 
 #### 4. Setup the backend
 ```bash

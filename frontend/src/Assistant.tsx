@@ -5,6 +5,9 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import {initializeApp} from "firebase/app";
 import {getAuth} from "firebase/auth";
+import {firebaseConfig} from "./firebase-config.ts";
+import {API_BASE} from "./config.ts";
+
 
 type Message = {
     message: string,
@@ -23,15 +26,7 @@ function Assistant() {
 
     ]);
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCkuBOBiRyBJFWMXWK0GqYwcVGIweE0JwQ",
-        authDomain: "veritas-ai-accountant.firebaseapp.com",
-        projectId: "veritas-ai-accountant",
-        storageBucket: "veritas-ai-accountant.firebasestorage.app",
-        messagingSenderId: "556788428259",
-        appId: "1:556788428259:web:b14bfb2ccd71fb6fea44d6",
-        measurementId: "G-MF0LJS5PFM"
-    };
+
 
     const app = initializeApp(firebaseConfig);
 
@@ -64,7 +59,7 @@ function Assistant() {
 
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/ask_question', formData, {
+            const response = await axios.post(`${API_BASE}/ask_question`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`

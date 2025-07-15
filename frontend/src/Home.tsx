@@ -34,8 +34,8 @@ import {Bar, Pie} from "react-chartjs-2";
 import './css/Home.css';
 import {initializeApp} from "firebase/app";
 import {getAuth} from "firebase/auth";
-
-
+import {firebaseConfig} from "./firebase-config.ts";
+import {API_BASE} from "./config.ts";
 
 function Home() {
     const [graphs, setGraphs] = useState<any>(null);
@@ -52,15 +52,7 @@ function Home() {
         spending: null,
         net: null
     });
-    const firebaseConfig = {
-        apiKey: "AIzaSyCkuBOBiRyBJFWMXWK0GqYwcVGIweE0JwQ",
-        authDomain: "veritas-ai-accountant.firebaseapp.com",
-        projectId: "veritas-ai-accountant",
-        storageBucket: "veritas-ai-accountant.firebasestorage.app",
-        messagingSenderId: "556788428259",
-        appId: "1:556788428259:web:b14bfb2ccd71fb6fea44d6",
-        measurementId: "G-MF0LJS5PFM"
-    };
+
 
     const app = initializeApp(firebaseConfig);
 
@@ -92,7 +84,7 @@ function Home() {
 
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/api/recent_transactions', formData, {
+            const response = await axios.post(`${API_BASE}/api/recent_transactions`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
@@ -114,7 +106,7 @@ function Home() {
 
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/api/earning_report', formData, {
+            const response = await axios.post(`${API_BASE}/api/earning_report`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
@@ -137,7 +129,7 @@ function Home() {
         const token = await auth.currentUser?.getIdToken(true)
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/api/daily_qoute', formData, {
+            const response = await axios.post(`${API_BASE}/api/daily_qoute`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
@@ -158,7 +150,7 @@ function Home() {
         const token = await auth.currentUser?.getIdToken(true)
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/api/expensesby-category', formData, {
+            const response = await axios.post(`${API_BASE}/api/expensesby-category`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
@@ -178,7 +170,7 @@ function Home() {
 
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/api/timegraphs', formData, {
+            const response = await axios.post(`${API_BASE}/api/timegraphs`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
@@ -198,7 +190,7 @@ function Home() {
 
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/api/inoutgraph', formData, {
+            const response = await axios.post(`${API_BASE}/api/inoutgraph`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`

@@ -45,7 +45,7 @@ cred = credentials.Certificate("veritas-ai-accountant-firebase-adminsdk-fbsvc-92
 defualt_app = firebase_admin.initialize_app(cred)
 
 
-UPLOAD_FOLDER = './uploads'
+UPLOAD_FOLDER = os.path.join(".", "uploads")
 ALLOWED_EXTENSIONS = set(['csv'])
 
 def allowed_file(filename):

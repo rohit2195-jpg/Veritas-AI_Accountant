@@ -11,19 +11,13 @@ interface Transaction {
 import './css/Transaction.css';
 import {initializeApp} from "firebase/app";
 import {getAuth} from "firebase/auth";
+import {firebaseConfig} from "./firebase-config.ts";
+import {API_BASE} from "./config.ts";
 
 function Data() {
     const [categories, setCategories] = useState<Transaction[]>([]);
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCkuBOBiRyBJFWMXWK0GqYwcVGIweE0JwQ",
-        authDomain: "veritas-ai-accountant.firebaseapp.com",
-        projectId: "veritas-ai-accountant",
-        storageBucket: "veritas-ai-accountant.firebasestorage.app",
-        messagingSenderId: "556788428259",
-        appId: "1:556788428259:web:b14bfb2ccd71fb6fea44d6",
-        measurementId: "G-MF0LJS5PFM"
-    };
+
 
     const app = initializeApp(firebaseConfig);
 
@@ -36,7 +30,7 @@ function Data() {
         const token = await auth.currentUser?.getIdToken(true)
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/view_transactions', formData, {
+            const response = await axios.post(`${API_BASE}/view_transactions`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
@@ -59,7 +53,7 @@ function Data() {
         formData.append("userid", "11");
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/api/clear_transactions', formData, {
+            const response = await axios.post(`${API_BASE}/api/clear_transactions`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 }
@@ -77,7 +71,7 @@ function Data() {
 
         try {
             const response = await axios.post(
-                'http://127.0.0.1:5000/api/download_transactions',
+                `${API_BASE}/api/download_transactions`,
                 formData,
                 {
                     headers: {

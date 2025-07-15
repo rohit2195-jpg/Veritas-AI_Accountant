@@ -12,7 +12,8 @@ interface Category {
 
 import { initializeApp } from "firebase/app";
 import {getAuth} from "firebase/auth";
-
+import {firebaseConfig} from "./firebase-config.ts";
+import {API_BASE} from "./config.ts";
 
 
 type UploadStatus  = "idle" | "uploading" | "success" | "error";
@@ -26,15 +27,7 @@ const Parser: React.FC = () => {
     // @ts-ignore
     const [progress, setProgress] = useState(0);
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCkuBOBiRyBJFWMXWK0GqYwcVGIweE0JwQ",
-        authDomain: "veritas-ai-accountant.firebaseapp.com",
-        projectId: "veritas-ai-accountant",
-        storageBucket: "veritas-ai-accountant.firebasestorage.app",
-        messagingSenderId: "556788428259",
-        appId: "1:556788428259:web:b14bfb2ccd71fb6fea44d6",
-        measurementId: "G-MF0LJS5PFM"
-    };
+
 
     const app = initializeApp(firebaseConfig);
 
@@ -48,7 +41,7 @@ const Parser: React.FC = () => {
         try {
             const token = await auth.currentUser?.getIdToken(true)
 
-            const response = await axios.post('http://127.0.0.1:5000/load_categories', formData, {
+            const response = await axios.post(`${API_BASE}/load_categories`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
@@ -75,7 +68,7 @@ const Parser: React.FC = () => {
 
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/uploadcsv', formData, {
+            const response = await axios.post(`${API_BASE}/uploadcsv`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`

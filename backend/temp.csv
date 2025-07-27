@@ -1,12 +1,12 @@
-date,description,amount,type,category,userid
-2024-12-31,Salary Payment,3250.0,credit,Food,LLQebkruDDNfkatAiZ7gyR9sm5t1
-2025-01-02,Grocery Shopping,-154.78,debit,Food,LLQebkruDDNfkatAiZ7gyR9sm5t1
-2025-01-03,Starbucks Coffee,-8.45,debit,Food,LLQebkruDDNfkatAiZ7gyR9sm5t1
-2025-01-05,Freelance Income,450.0,credit,Food,LLQebkruDDNfkatAiZ7gyR9sm5t1
-2025-01-07,Spotify Subscription,-10.99,debit,Entertainment,LLQebkruDDNfkatAiZ7gyR9sm5t1
-2025-01-08,Amazon Purchase,-89.2,debit,Food,LLQebkruDDNfkatAiZ7gyR9sm5t1
-2025-01-10,Gas Station,-47.6,debit,Auto,LLQebkruDDNfkatAiZ7gyR9sm5t1
-2025-01-12,Uber Ride,-15.3,debit,Transportation,LLQebkruDDNfkatAiZ7gyR9sm5t1
-2025-01-13,Stock Dividend,120.0,credit,Food,LLQebkruDDNfkatAiZ7gyR9sm5t1
-2025-01-15,Rent Payment,-1300.0,debit,Food,LLQebkruDDNfkatAiZ7gyR9sm5t1
-2025-01-17,Medical Bill,-220.4,debit,Medical,LLQebkruDDNfkatAiZ7gyR9sm5t1
+date,description,amount,type,userid,category
+2024-12-31,Salary Payment,3250.0,credit,LLQebkruDDNfkatAiZ7gyR9sm5t1,Rent
+2025-01-02,Grocery Shopping,-154.78,debit,LLQebkruDDNfkatAiZ7gyR9sm5t1,Food
+2025-01-03,Starbucks Coffee,-8.45,debit,LLQebkruDDNfkatAiZ7gyR9sm5t1,Food
+2025-01-05,Freelance Income,450.0,credit,LLQebkruDDNfkatAiZ7gyR9sm5t1,Rent
+2025-01-07,Spotify Subscription,-10.99,debit,LLQebkruDDNfkatAiZ7gyR9sm5t1,Entertainment
+2025-01-08,Amazon Purchase,-89.2,debit,LLQebkruDDNfkatAiZ7gyR9sm5t1,Food
+2025-01-10,Gas Station,-47.6,debit,LLQebkruDDNfkatAiZ7gyR9sm5t1,Auto
+2025-01-12,Uber Ride,-15.3,debit,LLQebkruDDNfkatAiZ7gyR9sm5t1,Transportation
+2025-01-13,Stock Dividend,120.0,credit,LLQebkruDDNfkatAiZ7gyR9sm5t1,Rent
+2025-01-15,Rent Payment,-1300.0,debit,LLQebkruDDNfkatAiZ7gyR9sm5t1,Rent
+2025-01-17,Medical Bill,-220.4,debit,LLQebkruDDNfkatAiZ7gyR9sm5t1,Medical

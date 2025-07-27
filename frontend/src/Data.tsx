@@ -51,11 +51,14 @@ function Data() {
     async function clearData() {
         const formData = new FormData();
         formData.append("userid", "11");
+        const token = await auth.currentUser?.getIdToken(true)
+
 
         try {
             const response = await axios.post(`${API_BASE}/api/clear_transactions`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
             console.log('Upload successful:', response.data);
@@ -69,6 +72,9 @@ function Data() {
         const formData = new FormData();
         formData.append("userid", "11");
 
+        const token = await auth.currentUser?.getIdToken(true)
+
+
         try {
             const response = await axios.post(
                 `${API_BASE}/api/download_transactions`,
@@ -76,6 +82,7 @@ function Data() {
                 {
                     headers: {
                         'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${token}`
                     },
                     responseType: 'blob', // Important: tells axios to expect binary data
                 }

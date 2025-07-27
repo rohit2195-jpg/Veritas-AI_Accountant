@@ -165,7 +165,7 @@ def upload_csv():
                 "category": t.category,
                 "id": t.id,
             } for t in transaction])
-            transaction_data = batch_categorize2(transaction_data, categories)
+            transaction_data = batch_categorize(transaction_data, categories)
             for t in transaction:
                 new_category = transaction_data.loc[transaction_data["id"] == t.id, "category"].values[0]
                 t.category = new_category

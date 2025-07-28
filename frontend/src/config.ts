@@ -1,1 +1,1 @@
-export const API_BASE = "https://veritas-ai-accountant.onrender.com:10000"
+export const API_BASE = "https://veritas-ai-accountant.onrender.com"

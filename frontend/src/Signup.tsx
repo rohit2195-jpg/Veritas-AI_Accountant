@@ -141,7 +141,7 @@ function Signup() {
                 )}
 
                 <p style={{textAlign: 'center', fontSize: '14px'}}>
-                    Existing user? <Link to="/">Login</Link>
+                    Existing user? <Link to="/login">Login</Link>
                 </p>
 
                 <button

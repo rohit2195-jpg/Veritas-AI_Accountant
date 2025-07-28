@@ -7,13 +7,14 @@ import './css/App.css';
 import Login from './Login';
 import Signup from "./Signup.tsx";
 import ProtectedRoute from "../ProtectedRoute.tsx";
+import Start from "./Start.tsx";
 
 
 function AppContent() {
     const location = useLocation();
 
     // Hide navbar on login and signup pages
-    const hideNavbar = location.pathname === '/' || location.pathname === '/signup';
+    const hideNavbar = location.pathname === '/login' || location.pathname === '/signup' || location.pathname === '/';
 
 
 
@@ -29,7 +30,8 @@ function AppContent() {
             )}
 
             <Routes>
-                <Route path="/" element={<Login />} />
+                <Route path="/" element={<Start/>} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/home" element={<ProtectedRoute> <Home /> </ProtectedRoute>} />
                 <Route path="/parser" element={<ProtectedRoute> <Parser /> </ProtectedRoute>} />

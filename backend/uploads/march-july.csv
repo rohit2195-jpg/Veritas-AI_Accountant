@@ -1,0 +1,87 @@
+date,description,amount,type
+2025-03-01,Salary Payment,3250.00,credit
+2025-03-02,Grocery Store - Trader Joe's,-132.45,debit
+2025-03-03,Netflix Subscription,-15.49,debit
+2025-03-05,Uber Ride,-18.25,debit
+2025-03-06,Starbucks Coffee,-6.75,debit
+2025-03-07,Amazon Purchase - Headphones,-89.99,debit
+2025-03-10,Freelance Project Payment,600.00,credit
+2025-03-11,Utilities - Electricity Bill,-98.60,debit
+2025-03-12,Gas Station,-42.10,debit
+2025-03-14,Lunch - Chipotle,-12.85,debit
+2025-03-15,Spotify Subscription,-10.99,debit
+2025-03-17,ATM Withdrawal,-100.00,debit
+2025-03-20,Gift from Friend,50.00,credit
+2025-03-22,Pharmacy - CVS,-23.67,debit
+2025-03-25,Grocery Store - Whole Foods,-144.88,debit
+2025-03-27,Hulu Subscription,-7.99,debit
+2025-03-28,Late Night Pizza,-21.00,debit
+2025-03-30,Parking Fee,-8.00,debit
+2025-04-01,Salary Payment,3250.00,credit
+2025-04-02,Grocery Shopping - Costco,-168.34,debit
+2025-04-04,Car Insurance Payment,-120.50,debit
+2025-04-06,Amazon Order - Books,-36.45,debit
+2025-04-08,Lunch with Colleagues,-24.75,debit
+2025-04-09,Freelance Payment,450.00,credit
+2025-04-10,Spotify Subscription,-10.99,debit
+2025-04-12,Electric Bill,-92.30,debit
+2025-04-13,Gas Station,-46.88,debit
+2025-04-15,Movie Night - Regal Cinemas,-19.50,debit
+2025-04-16,Uber Ride,-13.70,debit
+2025-04-18,Home Depot - Gardening Supplies,-64.55,debit
+2025-04-21,YouTube Premium,-11.99,debit
+2025-04-23,Trader Joe's Groceries,-128.60,debit
+2025-04-25,Gift Received,75.00,credit
+2025-04-27,Coffee Shop - Blue Bottle,-7.40,debit
+2025-04-29,Gas Station,-44.90,debit
+
+2025-05-01,Salary Payment,3250.00,credit
+2025-05-02,Whole Foods Groceries,-157.30,debit
+2025-05-03,Netflix Subscription,-15.49,debit
+2025-05-05,Freelance Payment,550.00,credit
+2025-05-06,Car Wash,-18.00,debit
+2025-05-08,Spotify Subscription,-10.99,debit
+2025-05-10,Uber Ride,-14.50,debit
+2025-05-12,Amazon - Kitchenware,-65.45,debit
+2025-05-14,Electric Bill,-97.10,debit
+2025-05-15,Dinner - Thai Restaurant,-33.20,debit
+2025-05-17,CVS Pharmacy,-19.85,debit
+2025-05-19,Apple App Store Purchase,-4.99,debit
+2025-05-21,Lyft Ride,-17.25,debit
+2025-05-24,Grocery Store - Safeway,-139.00,debit
+2025-05-27,Hulu Subscription,-7.99,debit
+2025-05-30,Dog Grooming,-45.00,debit
+
+2025-06-01,Salary Payment,3250.00,credit
+2025-06-02,Costco Groceries,-173.25,debit
+2025-06-03,Spotify Subscription,-10.99,debit
+2025-06-04,Gas Station,-48.15,debit
+2025-06-05,Freelance Income,500.00,credit
+2025-06-06,Starbucks Coffee,-8.25,debit
+2025-06-08,Netflix Subscription,-15.49,debit
+2025-06-10,Target - Home Goods,-74.30,debit
+2025-06-11,Water Bill,-40.00,debit
+2025-06-13,Pet Supplies,-34.65,debit
+2025-06-14,Dinner - Sushi Spot,-38.80,debit
+2025-06-16,YouTube Premium,-11.99,debit
+2025-06-19,Gas Station,-46.00,debit
+2025-06-22,Trader Joe's Groceries,-125.45,debit
+2025-06-25,ATM Withdrawal,-60.00,debit
+2025-06-28,Gym Membership,-35.00,debit
+2025-07-01,Salary Payment,3250.00,credit
+2025-07-03,Whole Foods - Groceries,-162.10,debit
+2025-07-04,Movie Theater - Independence Day,-22.50,debit
+2025-07-05,Spotify Subscription,-10.99,debit
+2025-07-06,Uber Ride,-12.35,debit
+2025-07-07,Freelance Income,600.00,credit
+2025-07-09,Electric Bill,-95.60,debit
+2025-07-11,Gas Station,-49.20,debit
+2025-07-12,Dinner - Italian Restaurant,-41.00,debit
+2025-07-14,Amazon Purchase - Electronics,-125.00,debit
+2025-07-16,Hulu Subscription,-7.99,debit
+2025-07-18,Coffee - Peet's Coffee,-6.85,debit
+2025-07-21,Pharmacy - Rite Aid,-27.40,debit
+2025-07-24,Trader Joe's Groceries,-131.95,debit
+2025-07-25,Gym Membership Renewal,-35.00,debit
+2025-07-27,Gift from Friend,60.00,credit
+2025-07-28,Gas Station,-47.50,debit

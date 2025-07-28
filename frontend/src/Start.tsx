@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import screenshot from "./assets/screenshot.png"
 import ai_pic from "./assets/Screenshot 2025-07-28 at 1.46.16 PM.png"
 import dash from "./assets/Screenshot 2025-07-28 at 1.43.53 PM.png"

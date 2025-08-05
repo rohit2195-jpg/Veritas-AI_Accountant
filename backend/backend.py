@@ -86,6 +86,12 @@ def verify_firebase_token(f):
         return f(*args, **kwargs)
     return decorated_function
 
+@app.route("/", methods=["GET"])
+@verify_firebase_token
+def index():
+    return "Backend is alive!", 200
+
+
 @app.route('/load_categories', methods=['POST'])
 @verify_firebase_token
 def load_categories():

@@ -7,7 +7,7 @@ import os
 import pandas as pd
 from sqlalchemy.orm import Session
 import requests
-from category import batch_categorize, batch_categorize2
+from category import batch_categorize
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from sqlalchemy.dialects.postgresql import JSON
@@ -36,7 +36,7 @@ colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40"]
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
-    f'mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
+    f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
 )
 db = SQLAlchemy(app)
 
@@ -529,5 +529,5 @@ def download_transactions():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)), threaded=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5001)), threaded=True)
 

@@ -74,8 +74,6 @@ If you understand, respond with **only** the JSON array of categories.
         categories=categories_str
     )
 
-    chain = prompt | llm
-
     full_prompt = prompt.format_messages(description=json.dumps(description))
     response = llm.invoke(full_prompt)
     cleaned_content = clean_model_response(response.content)
